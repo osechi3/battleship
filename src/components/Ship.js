@@ -15,4 +15,12 @@ export class Ship {
       }
     })
   }
+
+  isSunk () {
+    if (this.body.every(position => position === 'x')) {
+      this.isSunk = true
+    } else {
+      this.isSunk = false
+    }
+  }
 }
