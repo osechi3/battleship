@@ -7,4 +7,12 @@ export class Ship {
     this.body = []
     this.isSunk = false
   }
+
+  hit (coordinates) {
+    this.body.forEach(position => {
+      if (position === coordinates) {
+        position = 'x'
+      }
+    })
+  }
 }
