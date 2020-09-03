@@ -17,12 +17,17 @@ export class Player {
       this.receiveDamageFromAi = () => {
         const x = Math.floor(Math.random() * 10)
         const y = Math.floor(Math.random() * 10)
+        const coordinates = x * 10 + y
 
-        PubSub.publish('turn_is_made', {
-          x: x,
-          y: y
-        })
-        console.log(x, y)
+        if (!this.madeTurns.includes(coordinates)) {
+          this.madeTurns.push(coordinates)
+          PubSub.publish('turn_is_made', {
+            x: x,
+            y: y
+          })
+        } else {
+          this.receiveDamageFromAi(1, 1)
+        }
       }
     }
   }
