@@ -1,5 +1,5 @@
 import PubSub from 'pubsub-js'
-// import { Ship } from './Ship'
+import { Ship } from './Ship'
 
 export class Gameboard {
   constructor () {
@@ -66,5 +66,13 @@ export class Gameboard {
       console.log('There are no ships left')
       return false
     }
+  }
+
+  initShips () {
+    this.createShipOnGameboard(new Ship(1, 1, 0, 'horizontal'))
+    this.createShipOnGameboard(new Ship(2, 2, 3, 'vertical'))
+    this.createShipOnGameboard(new Ship(3, 5, 3, 'horizontal'))
+    this.createShipOnGameboard(new Ship(4, 8, 3, 'vertical'))
+    console.log(this.aliveShips)
   }
 }
