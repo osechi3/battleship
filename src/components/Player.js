@@ -17,7 +17,7 @@ export class Player {
       this.receiveDamageFromAi = () => {
         const x = Math.floor(Math.random() * 10)
         const y = Math.floor(Math.random() * 10)
-        const coordinates = x * 10 + y
+        const coordinates = '' + x + y
 
         if (!this.madeTurns.includes(coordinates)) {
           this.madeTurns.push(coordinates)
