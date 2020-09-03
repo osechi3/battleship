@@ -16,6 +16,7 @@ export class Gameboard {
       })
       if (index !== -1) {
         this.aliveShips.splice(index, 1)
+        this.areShipsAlive()
       }
     })
   }
@@ -50,6 +51,16 @@ export class Gameboard {
       })
     } else {
       this.missedHitsCoordinates.push(coordinates)
+    }
+  }
+
+  areShipsAlive () {
+    if (this.aliveShips.length > 0) {
+      console.log('There are still ships on the gameboard')
+      return true
+    } else {
+      console.log('There are no ships left')
+      return false
     }
   }
 }
