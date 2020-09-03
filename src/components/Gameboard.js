@@ -24,4 +24,20 @@ export class Gameboard {
   createShipOnGameboard (ship) {
     this.aliveShips.push(this.createShip(ship))
   }
+
+  receiveAttack (x, y) {
+    const coordinates = x * 10 + y
+
+    const isHit = this.aliveShips.some(ship => {
+      return ship.body.some(position => position === coordinates)
+    })
+
+    if (isHit) {
+      this.aliveShips.forEach(ship => {
+        ship.hit(coordinates)
+      })
+    } else {
+      this.missedHitsCoordinates.push(coordinates)
+    }
+  }
 }

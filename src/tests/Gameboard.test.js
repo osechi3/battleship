@@ -57,3 +57,35 @@ describe('Creating new ships on the gameboard with createShip function',
 
     /* Check for a blank input and a blank array */
   })
+
+describe(`receiveAttack function takes a pair of coordinates and checks
+  whether there is a ship on those coordinates. When there is one
+  it executes hit function, if none is found then
+  the coordinates are sent to the corresponding array`, () => {
+  test(`receiveAttack function changes the element in a ship's body
+  (If provided coordinates match with the ones in the body of a ship)`, () => {
+    const newGameboard = new Gameboard()
+    newGameboard.createShipOnGameboard(new Ship(4, 2, 3, 'horizontal'))
+    newGameboard.receiveAttack(2, 3)
+    expect(newGameboard.aliveShips[0].body[0]).toBe('x')
+    expect(newGameboard.missedHitsCoordinates.length).toBe(0)
+  })
+
+  test(`In case provided coordinates do NOT match the ones of a ship,
+  the function sends coordinates into missedHitsCoordinates array`, () => {
+    const newGameboard = new Gameboard()
+    newGameboard.createShipOnGameboard(new Ship(4, 2, 3, 'horizontal'))
+    newGameboard.receiveAttack(7, 7)
+    expect(newGameboard.aliveShips[0].body[0]).toBe(23)
+    expect(newGameboard.missedHitsCoordinates.length).toBe(1)
+  })
+
+  test('The function works when there is more than one ship', () => {
+    const newGameboard = new Gameboard()
+    newGameboard.createShipOnGameboard(new Ship(4, 2, 3, 'horizontal'))
+    newGameboard.createShipOnGameboard(new Ship(4, 5, 5, 'horizontal'))
+    newGameboard.receiveAttack(6, 5)
+    expect(newGameboard.aliveShips[1].body[1]).toBe('x')
+    expect(newGameboard.missedHitsCoordinates.length).toBe(0)
+  })
+})
