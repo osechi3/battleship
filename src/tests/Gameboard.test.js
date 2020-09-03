@@ -54,4 +54,6 @@ describe('Creating new ships on the gameboard with createShip function',
           isSunk: false
         })
     })
+
+    /* Check for a blank input and a blank array */
   })
