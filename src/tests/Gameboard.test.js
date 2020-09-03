@@ -56,6 +56,7 @@ describe('Creating new ships on the gameboard with createShip function',
     })
 
     /* Check for a blank input and a blank array */
+    /* Check for 00 coordinates (it outputs just 0 instead of 00) */
   })
 
 describe(`receiveAttack function takes a pair of coordinates and checks
