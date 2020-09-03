@@ -28,11 +28,11 @@ export class Gameboard {
   createShip (ship) {
     if (ship.direction === 'vertical') {
       for (let i = 0; i < ship.length; i++) {
-        ship.body.push(ship.x * 10 + (ship.y + i))
+        ship.body.push('' + ship.x + (ship.y + i))
       }
     } else if (ship.direction === 'horizontal') {
       for (let i = 0; i < ship.length; i++) {
-        ship.body.push((ship.x + i) * 10 + ship.y)
+        ship.body.push('' + (ship.x + i) + ship.y)
       }
     }
     return ship
@@ -43,7 +43,7 @@ export class Gameboard {
   }
 
   receiveAttack (x, y) {
-    const coordinates = x * 10 + y
+    const coordinates = '' + x + y
 
     const isHit = this.aliveShips.some(ship => {
       return ship.body.some(position => position === coordinates)

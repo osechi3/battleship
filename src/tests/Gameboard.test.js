@@ -11,7 +11,7 @@ describe('Creating new ships on the gameboard with createShip function',
           x: 1,
           y: 0,
           direction: 'vertical',
-          body: [10, 11, 12],
+          body: ['10', '11', '12'],
           isSunk: false
         })
     })
@@ -24,7 +24,7 @@ describe('Creating new ships on the gameboard with createShip function',
           x: 5,
           y: 2,
           direction: 'vertical',
-          body: [52, 53],
+          body: ['52', '53'],
           isSunk: false
         })
     })
@@ -37,7 +37,7 @@ describe('Creating new ships on the gameboard with createShip function',
           x: 5,
           y: 2,
           direction: 'horizontal',
-          body: [52, 62],
+          body: ['52', '62'],
           isSunk: false
         })
     })
@@ -50,13 +50,25 @@ describe('Creating new ships on the gameboard with createShip function',
           x: 2,
           y: 3,
           direction: 'horizontal',
-          body: [23, 33, 43, 53],
+          body: ['23', '33', '43', '53'],
+          isSunk: false
+        })
+    })
+
+    test('The function accepts 0 and 0 coordinates', () => {
+      const newGameboard = new Gameboard()
+      expect(newGameboard.createShip(new Ship(4, 0, 0, 'horizontal')))
+        .toEqual({
+          length: 4,
+          x: 0,
+          y: 0,
+          direction: 'horizontal',
+          body: ['00', '10', '20', '30'],
           isSunk: false
         })
     })
 
     /* Check for a blank input and a blank array */
-    /* Check for 00 coordinates (it outputs just 0 instead of 00) */
   })
 
 describe(`receiveAttack function takes a pair of coordinates and checks
@@ -77,7 +89,7 @@ describe(`receiveAttack function takes a pair of coordinates and checks
     const newGameboard = new Gameboard()
     newGameboard.createShipOnGameboard(new Ship(4, 2, 3, 'horizontal'))
     newGameboard.receiveAttack(7, 7)
-    expect(newGameboard.aliveShips[0].body[0]).toBe(23)
+    expect(newGameboard.aliveShips[0].body[0]).toBe('23')
     expect(newGameboard.missedHitsCoordinates.length).toBe(1)
   })
 
