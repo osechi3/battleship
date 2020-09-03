@@ -1,3 +1,5 @@
+import PubSub from 'pubsub-js'
+
 export class Ship {
   constructor (length, x, y, direction = 'vertical') {
     this.length = length
@@ -14,11 +16,14 @@ export class Ship {
         arr[i] = 'x'
       }
     })
+    this.hasBeenSunk()
   }
 
-  isSunk () {
+  hasBeenSunk () {
     if (this.body.every(position => position === 'x')) {
       this.isSunk = true
+
+      PubSub.publishSync('the_ship_is_sunk') // SYNC!
     } else {
       this.isSunk = false
     }

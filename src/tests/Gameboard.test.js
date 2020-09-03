@@ -88,4 +88,13 @@ describe(`receiveAttack function takes a pair of coordinates and checks
     expect(newGameboard.aliveShips[1].body[1]).toBe('x')
     expect(newGameboard.missedHitsCoordinates.length).toBe(0)
   })
+
+  test('There are no ships in aliveShips array when the last ship has been sunk', () => {
+    const newGameboard = new Gameboard()
+    newGameboard.createShipOnGameboard(new Ship(2, 2, 3, 'horizontal'))
+    newGameboard.receiveAttack(2, 3)
+    newGameboard.receiveAttack(3, 3)
+    expect(newGameboard.aliveShips.length).toBe(0)
+    expect(newGameboard.missedHitsCoordinates.length).toBe(0)
+  })
 })
