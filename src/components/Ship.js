@@ -9,9 +9,9 @@ export class Ship {
   }
 
   hit (coordinates) {
-    this.body.forEach(position => {
+    this.body.forEach((position, i, arr) => {
       if (position === coordinates) {
-        position = 'x'
+        arr[i] = 'x'
       }
     })
   }
