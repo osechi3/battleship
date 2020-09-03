@@ -19,6 +19,10 @@ export class Gameboard {
         this.areShipsAlive()
       }
     })
+
+    PubSub.subscribe('turn_is_made', (msg, { x, y }) => {
+      this.receiveAttack(x, y)
+    })
   }
 
   createShip (ship) {
