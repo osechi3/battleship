@@ -1,0 +1,28 @@
+/* #app {
+  display: flex;
+} */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+
+  width: 500px;
+  height: 470px;
+  margin: 15px;
+
+  outline: 1px solid;
+}
+#grid-player1 {
+  float: left;
+}
+#grid-player2 {
+  float: right;
+}
+.grid-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 50px;
+
+  outline: 1px solid;
+}
