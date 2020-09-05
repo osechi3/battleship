@@ -20,6 +20,9 @@ export class View {
     const coverChangingTurnsPlayer2 =
       this.createElement('div', 'cover', 'cover-player2', gridPlayer2)
 
+    /* Letting Player 1 go first */
+    coverChangingTurnsPlayer1.style.display = 'initial'
+
     gridPlayer1.append(coverChangingTurnsPlayer1)
     gridPlayer2.append(coverChangingTurnsPlayer2)
   }
@@ -73,6 +76,7 @@ export class View {
 
     PubSub.subscribe('attack_is_executed', (msg, data) => {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
+      this.changeTurns(data.player)
     })
   }
 
@@ -116,6 +120,19 @@ export class View {
           gridPlayer.childNodes[item].style.backgroundColor = 'yellow'
         }
       }
+    }
+  }
+
+  static changeTurns (player) {
+    const coverPlayer1 = document.getElementById('cover-player1')
+    const coverPlayer2 = document.getElementById('cover-player2')
+
+    if (player === 'player2') {
+      coverPlayer1.style.display = 'none'
+      coverPlayer2.style.display = 'initial'
+    } else if (player === 'player1') {
+      coverPlayer1.style.display = 'initial'
+      coverPlayer2.style.display = 'none'
     }
   }
 
