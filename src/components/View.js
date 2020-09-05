@@ -58,13 +58,17 @@ export class View {
 
     /* Event listener */
     gridPlayer2.addEventListener('click', (e) => {
-      console.log(e.target.textContent)
-      PubSub.publish('clicked_player2_grid', e.target.textContent)
+      if (e.target.textContent) {
+        console.log(e.target.textContent)
+        PubSub.publish('clicked_player2_grid', e.target.textContent)
+      }
     })
 
     gridPlayer1.addEventListener('click', (e) => {
-      console.log(e.target.textContent)
-      PubSub.publish('clicked_player1_grid', e.target.textContent)
+      if (e.target.textContent) {
+        console.log(e.target.textContent)
+        PubSub.publish('clicked_player1_grid', e.target.textContent)
+      }
     })
 
     PubSub.subscribe('attack_is_executed', (msg, data) => {
