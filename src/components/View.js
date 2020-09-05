@@ -1,3 +1,5 @@
+import PubSub from 'pubsub-js'
+
 export class View {
   static init () {
     const rootElement = document.getElementById('app')
@@ -36,6 +38,27 @@ export class View {
         gridItem.textContent = '' + item + 0
       }
     }
+
+    /* Event listener */
+    gridPlayer2.addEventListener('click', (e) => {
+      console.log(e.target.textContent)
+      PubSub.publish('clicked_player2_grid', {
+        x: e.target.textContent.split('')[0],
+        y: e.target.textContent.split('')[1]
+      })
+    })
+
+    gridPlayer1.addEventListener('click', (e) => {
+      console.log(e.target.textContent)
+      PubSub.publish('clicked_player1_grid', {
+        x: e.target.textContent.split('')[0],
+        y: e.target.textContent.split('')[1]
+      })
+    })
+
+    PubSub.subscribe('attack_is_executed', (msg, data) => {
+      this.updateGridPlayer(data.x, data.y, data.missedHits, data.player)
+    })
   }
 
   static placeShips (player1, player2) {
@@ -64,6 +87,23 @@ export class View {
         }
       })
     })
+  }
+
+  static updateGridPlayer (x, y, missedHits, player) {
+    const gridPlayer = document.getElementById(`grid-${player}`)
+    const coordinates = '' + x + y
+    const isMissed = missedHits.some(hit => coordinates === hit)
+    console.log(isMissed)
+
+    for (let item = 0; item < 100; item++) {
+      if (gridPlayer.childNodes[item].textContent === coordinates) {
+        if (isMissed) {
+          gridPlayer.childNodes[item].style.backgroundColor = 'lightblue'
+        } else {
+          gridPlayer.childNodes[item].style.backgroundColor = 'yellow'
+        }
+      }
+    }
   }
 
   static createElement (tag, className, elementId, appendTo = 'body') {

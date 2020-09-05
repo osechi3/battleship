@@ -19,10 +19,6 @@ export class Gameboard {
         this.areShipsAlive()
       }
     })
-
-    PubSub.subscribe('turn_is_made', (msg, { x, y }) => {
-      this.receiveAttack(x, y)
-    })
   }
 
   createShip (ship) {
@@ -42,7 +38,7 @@ export class Gameboard {
     this.aliveShips.push(this.createShip(ship))
   }
 
-  receiveAttack (x, y) {
+  receiveAttack (x, y, player) {
     const coordinates = '' + x + y
 
     const isHit = this.aliveShips.some(ship => {
@@ -56,6 +52,13 @@ export class Gameboard {
     } else {
       this.missedHitsCoordinates.push(coordinates)
     }
+
+    PubSub.publish('attack_is_executed', {
+      x: x,
+      y: y,
+      missedHits: this.missedHitsCoordinates,
+      player: player
+    })
   }
 
   areShipsAlive () {
