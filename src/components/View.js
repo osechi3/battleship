@@ -59,7 +59,7 @@ export class View {
       }
     }
 
-    /* Event listener */
+    /* Event listeners */
     gridPlayer2.addEventListener('click', (e) => {
       if (e.target.textContent) {
         console.log(e.target.textContent)
