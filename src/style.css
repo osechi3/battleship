@@ -11,8 +11,8 @@ body {
   display: flex;
   flex-wrap: wrap;
 
-  width: 500px;
-  height: 470px;
+  width: 420px;
+  height: 370px;
   margin: 15px;
 
   outline: 1px solid;
@@ -28,7 +28,7 @@ body {
   justify-content: center;
   align-items: center;
 
-  width: 50px;
+  width: 42px;
 
   outline: 1px solid;
 }
