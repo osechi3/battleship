@@ -25,6 +25,7 @@ class Game {
       player1.receiveDamage(coordinates, 'player1')
     })
 
+    /* This is triggered when the second player is AI */
     PubSub.subscribe('make_turn_ai', (msg, coordinates) => {
       player1.receiveDamage(coordinates, 'player1')
     })
