@@ -7,6 +7,26 @@ body {
   text-align: center;
   font-size: 36px;
 }
+
+#block-ships {
+  display: flex;
+  flex-direction: column;
+
+  outline: 1px solid;
+}
+.ship {
+  display: flex;
+
+  margin: 5px;
+}
+.ship-part {
+  width: 38px;
+  height: 38px;
+
+  background-color: red;
+  outline: 1px solid;
+}
+
 .grid {
   display: flex;
   flex-wrap: wrap;
