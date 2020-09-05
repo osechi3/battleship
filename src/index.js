@@ -14,12 +14,12 @@ class Game {
     View.init()
     View.placeShips(player1, player2)
 
-    PubSub.subscribe('clicked_player2_grid', (msg, { x, y }) => {
-      player2.receiveDamage(x, y, 'player2')
+    PubSub.subscribe('clicked_player2_grid', (msg, coordinates) => {
+      player2.receiveDamage(coordinates, 'player2')
     })
 
-    PubSub.subscribe('clicked_player1_grid', (msg, { x, y }) => {
-      player1.receiveDamage(x, y, 'player1')
+    PubSub.subscribe('clicked_player1_grid', (msg, coordinates) => {
+      player1.receiveDamage(coordinates, 'player1')
     })
   }
 }

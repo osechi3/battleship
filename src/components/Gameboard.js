@@ -38,11 +38,11 @@ export class Gameboard {
     this.aliveShips.push(this.createShip(ship))
   }
 
-  receiveAttack (x, y, player) {
-    const coordinates = '' + x + y
-
+  receiveAttack (coordinates, player) {
     const isHit = this.aliveShips.some(ship => {
-      return ship.body.some(position => position === coordinates)
+      return ship.body.some(position => {
+        return position === coordinates
+      })
     })
 
     if (isHit) {
@@ -54,8 +54,7 @@ export class Gameboard {
     }
 
     PubSub.publish('attack_is_executed', {
-      x: x,
-      y: y,
+      coordinates: coordinates,
       missedHits: this.missedHitsCoordinates,
       player: player
     })

@@ -46,22 +46,16 @@ export class View {
     /* Event listener */
     gridPlayer2.addEventListener('click', (e) => {
       console.log(e.target.textContent)
-      PubSub.publish('clicked_player2_grid', {
-        x: e.target.textContent.split('')[0],
-        y: e.target.textContent.split('')[1]
-      })
+      PubSub.publish('clicked_player2_grid', e.target.textContent)
     })
 
     gridPlayer1.addEventListener('click', (e) => {
       console.log(e.target.textContent)
-      PubSub.publish('clicked_player1_grid', {
-        x: e.target.textContent.split('')[0],
-        y: e.target.textContent.split('')[1]
-      })
+      PubSub.publish('clicked_player1_grid', e.target.textContent)
     })
 
     PubSub.subscribe('attack_is_executed', (msg, data) => {
-      this.updateGridPlayer(data.x, data.y, data.missedHits, data.player)
+      this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
     })
   }
 
@@ -92,9 +86,8 @@ export class View {
     })
   }
 
-  static updateGridPlayer (x, y, missedHits, player) {
+  static updateGridPlayer (coordinates, missedHits, player) {
     const gridPlayer = document.getElementById(`grid-${player}`)
-    const coordinates = '' + x + y
     const isMissed = missedHits.some(hit => coordinates === hit)
     console.log(isMissed)
 
