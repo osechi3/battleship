@@ -12,7 +12,10 @@ class Game {
     player2.gameboard.initShips()
 
     View.init()
-    View.placeShips(player1, player2)
+
+    PubSub.subscribe('clicked_btn_start_game', () => {
+      this.initGame(player1, player2)
+    })
 
     PubSub.subscribe('clicked_player2_grid', (msg, coordinates) => {
       player2.receiveDamage(coordinates, 'player2')
@@ -29,6 +32,10 @@ class Game {
     PubSub.subscribe('no_alive_ships', (msg, player) => {
       this.gameOver(player)
     })
+  }
+
+  static initGame (player1, player2) {
+    View.placeShips(player1, player2)
   }
 
   static gameOver (player) {

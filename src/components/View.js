@@ -24,19 +24,31 @@ export class View {
 
     /* Div that doesn't let a player make a turn before
     the other player do so */
-    const gridPlayer1 = document.getElementById('grid-player1')
-    const gridPlayer2 = document.getElementById('grid-player2')
+    PubSub.subscribe('clicked_btn_start_game', () => {
+      const gridPlayer1 = document.getElementById('grid-player1')
+      const gridPlayer2 = document.getElementById('grid-player2')
 
-    const coverChangingTurnsPlayer1 =
-      this.createElement('div', 'cover', 'cover-player1', gridPlayer1)
-    const coverChangingTurnsPlayer2 =
-      this.createElement('div', 'cover', 'cover-player2', gridPlayer2)
+      const coverChangingTurnsPlayer1 =
+        this.createElement('div', 'cover', 'cover-player1', gridPlayer1)
+      const coverChangingTurnsPlayer2 =
+        this.createElement('div', 'cover', 'cover-player2', gridPlayer2)
 
-    /* Letting Player 1 go first */
-    coverChangingTurnsPlayer1.style.display = 'initial'
+      /* Letting Player 1 go first */
+      coverChangingTurnsPlayer1.style.display = 'initial'
 
-    gridPlayer1.append(coverChangingTurnsPlayer1)
-    gridPlayer2.append(coverChangingTurnsPlayer2)
+      gridPlayer1.append(coverChangingTurnsPlayer1)
+      gridPlayer2.append(coverChangingTurnsPlayer2)
+    })
+
+    /* A button that starts the game */
+    const buttonStartGame =
+      this.createElement('button', 'btn', 'btn-start-game', rootElement)
+    buttonStartGame.type = 'button'
+    buttonStartGame.textContent = 'Start Game'
+
+    buttonStartGame.addEventListener('click', () => {
+      PubSub.publish('clicked_btn_start_game')
+    })
   }
 
   static initGrid (rootElement) {
@@ -72,18 +84,20 @@ export class View {
     }
 
     /* Event listeners */
-    gridPlayer2.addEventListener('click', (e) => {
-      if (e.target.textContent) {
-        console.log(e.target.textContent)
-        PubSub.publish('clicked_player2_grid', e.target.textContent)
-      }
-    })
+    PubSub.subscribe('clicked_btn_start_game', () => {
+      gridPlayer2.addEventListener('click', (e) => {
+        if (e.target.textContent) {
+          console.log(e.target.textContent)
+          PubSub.publish('clicked_player2_grid', e.target.textContent)
+        }
+      })
 
-    gridPlayer1.addEventListener('click', (e) => {
-      if (e.target.textContent) {
-        console.log(e.target.textContent)
-        PubSub.publish('clicked_player1_grid', e.target.textContent)
-      }
+      gridPlayer1.addEventListener('click', (e) => {
+        if (e.target.textContent) {
+          console.log(e.target.textContent)
+          PubSub.publish('clicked_player1_grid', e.target.textContent)
+        }
+      })
     })
 
     PubSub.subscribe('attack_is_executed', (msg, data) => {
