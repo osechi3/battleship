@@ -26,3 +26,14 @@
 
   outline: 1px solid;
 }
+
+.cover {
+  display: none;
+
+  position: absolute;
+  width: 500px;
+  height: 470px;
+
+  background-color: black;
+  opacity: .3;
+}

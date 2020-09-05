@@ -9,6 +9,19 @@ export class View {
 
     /* Grid */
     this.initGrid(rootElement)
+
+    /* Div that doesn't let a player make a turn before
+    the other player do so */
+    const gridPlayer1 = document.getElementById('grid-player1')
+    const gridPlayer2 = document.getElementById('grid-player2')
+
+    const coverChangingTurnsPlayer1 =
+      this.createElement('div', 'cover', 'cover-player1', gridPlayer1)
+    const coverChangingTurnsPlayer2 =
+      this.createElement('div', 'cover', 'cover-player2', gridPlayer2)
+
+    gridPlayer1.append(coverChangingTurnsPlayer1)
+    gridPlayer2.append(coverChangingTurnsPlayer2)
   }
 
   static initGrid (rootElement) {
