@@ -7,6 +7,18 @@ export class View {
     const header = this.createElement('h1', null, 'header', rootElement)
     header.textContent = 'Battleship'
 
+    /* 2 blocks with players' names */
+    const blockNames =
+      this.createElement('div', null, 'block-name', rootElement)
+
+    const blockName1 =
+      this.createElement('p', 'name', 'block-name1', blockNames)
+    blockName1.textContent = 'Player 1'
+
+    const blockName2 =
+      this.createElement('p', 'name', 'block-name2', blockNames)
+    blockName2.textContent = 'Player 2'
+
     /* Grid */
     this.initGrid(rootElement)
 
