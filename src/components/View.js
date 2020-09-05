@@ -12,12 +12,15 @@ export class View {
   }
 
   static initGrid (rootElement) {
-    const gridPlayer1 = this.createElement('div', 'grid', 'grid-player1', rootElement)
-    const gridPlayer2 = this.createElement('div', 'grid', 'grid-player2', rootElement)
+    const gridPlayer1 =
+      this.createElement('div', 'grid', 'grid-player1', rootElement)
+    const gridPlayer2 =
+      this.createElement('div', 'grid', 'grid-player2', rootElement)
 
     /* Grid items of the first player */
     for (let item = 0; item < 100; item++) {
-      const gridItem = this.createElement('div', 'grid-item', null, gridPlayer1)
+      const gridItem =
+        this.createElement('div', 'grid-item', null, gridPlayer1)
 
       /* Adjusting numbers in divs and casting numbers to strings */
       if (item >= 10) {
@@ -29,7 +32,8 @@ export class View {
 
     /* Grid items of the second player */
     for (let item = 0; item < 100; item++) {
-      const gridItem = this.createElement('div', 'grid-item', null, gridPlayer2)
+      const gridItem =
+        this.createElement('div', 'grid-item', null, gridPlayer2)
 
       /* Adjusting numbers in divs and casting numbers to strings */
       if (item >= 10) {
@@ -66,7 +70,6 @@ export class View {
     const gridPlayer1 = document.getElementById('grid-player1')
     const shipsPlayer2 = player2.gameboard.aliveShips
     const gridPlayer2 = document.getElementById('grid-player2')
-    // console.log(grid.childNodes[0].textContent)
 
     shipsPlayer1.forEach(ship => {
       ship.body.forEach(position => {

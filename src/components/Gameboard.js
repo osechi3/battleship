@@ -3,12 +3,12 @@ import { Ship } from './Ship'
 
 export class Gameboard {
   constructor () {
-    // this.gameboardX = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    // this.gameboardY = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     this.aliveShips = []
     this.missedHitsCoordinates = []
 
     PubSub.subscribe('the_ship_is_sunk', () => {
+      /* Removing the sunk ship from aliveShips array and checking for
+      whether there are any ships on player's gameboard */
       const index = this.aliveShips.findIndex(ship => {
         if (ship.isSunk === true) {
           return ship
