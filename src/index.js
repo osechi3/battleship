@@ -6,8 +6,8 @@ import PubSub from 'pubsub-js'
 
 class Game {
   static init () {
-    const player1 = new Player(new Gameboard(), true, false)
-    const player2 = new Player(new Gameboard(), true, true) // Ai player
+    const player1 = new Player(new Gameboard('player1'), true, false)
+    const player2 = new Player(new Gameboard('player2'), true, true) // Ai player
     player1.gameboard.initShips()
     player2.gameboard.initShips()
 
@@ -25,6 +25,18 @@ class Game {
     PubSub.subscribe('make_turn_ai', (msg, coordinates) => {
       player1.receiveDamage(coordinates, 'player1')
     })
+
+    PubSub.subscribe('no_alive_ships', (msg, player) => {
+      this.gameOver(player)
+    })
+  }
+
+  static gameOver (player) {
+    if (player === 'player1') {
+      alert('The game is over. Player 2 has won!')
+    } else if (player === 'player2') {
+      alert('The game is over. Player 1 has won!')
+    }
   }
 }
 Game.init()

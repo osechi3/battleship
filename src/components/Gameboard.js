@@ -2,9 +2,10 @@ import PubSub from 'pubsub-js'
 import { Ship } from './Ship'
 
 export class Gameboard {
-  constructor () {
+  constructor (player) {
     this.aliveShips = []
     this.missedHitsCoordinates = []
+    this.player = player
 
     PubSub.subscribe('the_ship_is_sunk', () => {
       /* Removing the sunk ship from aliveShips array and checking for
@@ -63,10 +64,9 @@ export class Gameboard {
   areShipsAlive () {
     if (this.aliveShips.length > 0) {
       console.log('There are still ships on the gameboard')
-      return true
     } else {
       console.log('There are no ships left')
-      return false
+      PubSub.publish('no_alive_ships', this.player)
     }
   }
 
