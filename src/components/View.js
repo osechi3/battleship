@@ -13,7 +13,6 @@ export class View {
 
         const childrenLength = element.children.length
 
-        e.dataTransfer.setData('text/className', element.classList[0])
         e.dataTransfer.setData('text/id', element.id)
         e.dataTransfer.setData(`length/${childrenLength}`, childrenLength)
         e.dataTransfer.effectAllowed = 'move'
@@ -152,10 +151,7 @@ export class View {
       child.addEventListener('drop', (e) => {
         e.preventDefault()
         const draggedId = e.dataTransfer.getData('text/id')
-        const shipClass = e.dataTransfer.getData('text/className')
 
-        child.classList.add(shipClass)
-        child.nextElementSibling.classList.add(shipClass)
         document.getElementById(draggedId).remove()
 
         /* Getting the length */
