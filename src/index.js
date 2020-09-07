@@ -2,16 +2,24 @@ import './style.css'
 import { Player } from './components/Player'
 import { Gameboard } from './components/Gameboard'
 import { View } from './components/View'
+import { Ship } from './components/Ship'
 import PubSub from 'pubsub-js'
 
 class Game {
   static init () {
     const player1 = new Player(new Gameboard('player1'), true, false)
     const player2 = new Player(new Gameboard('player2'), true, true) // Ai player
-    player1.gameboard.initShips()
     player2.gameboard.initShips()
 
     View.init()
+
+    /* When the first player places a ship onto the grid */
+    PubSub.subscribe('got_ship_from_DOM', (msg, { coordinates, length }) => {
+      const x = parseInt(coordinates[0])
+      const y = parseInt(coordinates[1])
+      player1
+        .gameboard.createShipOnGameboard(new Ship(length, x, y, 'horizontal'))
+    })
 
     PubSub.subscribe('clicked_btn_start_game', () => {
       this.initGame(player1, player2)
