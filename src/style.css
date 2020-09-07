@@ -8,9 +8,20 @@ body {
   font-size: 36px;
 }
 
+#block-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 20px;
+}
+
 #block-ships {
   display: flex;
   flex-direction: column;
+
+  width: 160px;
+  margin-top: 50px;
 
   outline: 1px solid;
 }
@@ -26,6 +37,26 @@ body {
   background-color: red;
   outline: 1px solid;
 }
+#container-ship1 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.block-grid {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.name {
+  margin: 10px 0;
+
+  font-size: 24px;
+
+  outline: 1px solid;
+}
 
 .grid {
   display: flex;
@@ -33,15 +64,9 @@ body {
 
   width: 420px;
   height: 370px;
-  margin: 15px;
+  margin: 0 50px;
 
   outline: 1px solid;
-}
-#grid-player1 {
-  float: left;
-}
-#grid-player2 {
-  float: right;
 }
 .grid-item {
   display: flex;
@@ -64,19 +89,8 @@ body {
   opacity: .3;
 }
 
-#block-name {
-  display: flex;
-  justify-content: space-between;
-
-  outline: 1px solid;
-}
-
-.name {
-  margin: 0 200px;
-
-  font-size: 24px;
-
-  outline: 1px solid;
+#btn-start-game {
+  height: 30px;
 }
 
 /* Drag & Drop */

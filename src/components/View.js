@@ -2,7 +2,7 @@ import PubSub from 'pubsub-js'
 
 export class View {
   static init () {
-    const rootElement = document.getElementById('app')
+    const blockMain = document.getElementById('block-main')
 
     /* Draggable ship elements */
     const shipElements = document.querySelectorAll('.ship')
@@ -26,7 +26,7 @@ export class View {
     })
 
     /* Grid */
-    this.initGrid(rootElement)
+    this.initGrid(blockMain)
 
     /* Div that doesn't let a player make a turn before
     the other player do so */
@@ -48,9 +48,12 @@ export class View {
 
     /* A button that starts the game */
     const buttonStartGame =
-      this.createElement('button', 'btn', 'btn-start-game', rootElement)
+      this.createElement('button', 'btn', 'btn-start-game')
     buttonStartGame.type = 'button'
     buttonStartGame.textContent = 'Start Game'
+
+    const blockGrid2 = document.getElementById('block-grid2')
+    blockMain.insertBefore(buttonStartGame, blockGrid2)
 
     buttonStartGame.addEventListener('click', () => {
       PubSub.publish('clicked_btn_start_game')
@@ -58,10 +61,26 @@ export class View {
   }
 
   static initGrid (rootElement) {
+    const blockGridPlayer1 =
+      this.createElement('div', 'block-grid', 'block-grid1', rootElement)
+
+    const blockGridPlayer2 =
+      this.createElement('div', 'block-grid', 'block-grid2', rootElement)
+
+    /* Players' names */
+    const namePlayer1 =
+      this.createElement('p', 'name', 'block-name1', blockGridPlayer1)
+    namePlayer1.textContent = 'Player 1'
+
+    const namePlayer2 =
+      this.createElement('p', 'name', 'block-name2', blockGridPlayer2)
+    namePlayer2.textContent = 'Computer'
+
+    /* Grid */
     const gridPlayer1 =
-      this.createElement('div', 'grid', 'grid-player1', rootElement)
+      this.createElement('div', 'grid', 'grid-player1', blockGridPlayer1)
     const gridPlayer2 =
-      this.createElement('div', 'grid', 'grid-player2', rootElement)
+      this.createElement('div', 'grid', 'grid-player2', blockGridPlayer2)
 
     /* Grid items of the first player */
     for (let item = 0; item < 100; item++) {
@@ -243,11 +262,11 @@ export class View {
     }
   }
 
-  static createElement (tag, className, elementId, appendTo = 'body') {
+  static createElement (tag, className, elementId, appendTo) {
     const element = document.createElement(tag)
     if (className) element.className = className
     if (elementId) element.id = elementId
-    appendTo.append(element)
+    if (appendTo) appendTo.append(element)
     return element
   }
 }
