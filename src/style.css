@@ -78,3 +78,13 @@ body {
 
   outline: 1px solid;
 }
+
+/* Drag & Drop */
+.hover {
+  background-color: green;
+  opacity: .5;
+}
+
+.placed {
+  background-color: red;
+}
