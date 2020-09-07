@@ -20,6 +20,12 @@ export class Gameboard {
         this.areShipsAlive()
       }
     })
+
+    PubSub.subscribe('got_ship_from_DOM', (msg, { coordinates, length }) => {
+      const x = parseInt(coordinates[0])
+      const y = parseInt(coordinates[1])
+      this.createShipOnGameboard(new Ship(length, x, y, 'horizontal'))
+    })
   }
 
   createShip (ship) {

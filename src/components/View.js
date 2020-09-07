@@ -19,6 +19,25 @@ export class View {
       this.createElement('p', 'name', 'block-name2', blockNames)
     blockName2.textContent = 'Player 2'
 
+    /* Draggable ship elements */
+    const shipElements = document.querySelectorAll('.ship')
+    shipElements.forEach(element => {
+      element.addEventListener('dragstart', (e) => {
+        element.id = 'dragged'
+
+        const childrenLength = element.children.length
+
+        e.dataTransfer.setData('text/className', element.classList[0])
+        e.dataTransfer.setData('text/id', element.id)
+        e.dataTransfer.setData(`length/${childrenLength}`, childrenLength)
+        e.dataTransfer.effectAllowed = 'move'
+      })
+
+      element.addEventListener('dragend', (e) => {
+        element.removeAttribute('id')
+      })
+    })
+
     /* Grid */
     this.initGrid(rootElement)
 
@@ -100,9 +119,82 @@ export class View {
       })
     })
 
+    /* Drop area for draggable ships */
+
+    gridPlayer1.childNodes.forEach(child => {
+      child.addEventListener('dragenter', (e) => {
+        e.preventDefault()
+      })
+
+      child.addEventListener('dragover', (e) => {
+        e.preventDefault()
+
+        /* Getting the length */
+        const dataType =
+          e.dataTransfer.types.find(type => /length\/[0-9]/.test(type))
+        // const styleHover = 'background-color: green; opacity: .5'
+
+        this.styleItemsReactively(child, parseInt(dataType.slice(-1)), 'hover')
+      })
+
+      child.addEventListener('dragleave', (e) => {
+        this.styleItemsReactively(child, 4, null, 'hover')
+      })
+
+      child.addEventListener('drop', (e) => {
+        e.preventDefault()
+        const draggedId = e.dataTransfer.getData('text/id')
+        const shipClass = e.dataTransfer.getData('text/className')
+
+        child.classList.add(shipClass)
+        child.nextElementSibling.classList.add(shipClass)
+        document.getElementById(draggedId).remove()
+
+        /* Getting the length */
+        const dataType =
+          e.dataTransfer.types.find(type => /length\/[0-9]/.test(type))
+        // const styleHover = 'background-color: red'
+
+        this.styleItemsReactively(child, parseInt(dataType.slice(-1)), 'placed', 'hover')
+        child.classList.remove('hover')
+
+        this.getShipFromDOM()
+      })
+    })
+
     PubSub.subscribe('attack_is_executed', (msg, data) => {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
       this.changeTurns(data.player)
+    })
+  }
+
+  static styleItemsReactively (element, amount, className, classToRemove) {
+    if (!element) return
+    if (classToRemove) element.classList.remove(classToRemove)
+    if (className) element.classList.add(className)
+    if (amount === 1) return
+
+    return this.styleItemsReactively(
+      element.nextElementSibling, amount - 1, className, classToRemove
+    )
+  }
+
+  static getShipFromDOM () {
+    const ship = []
+    const gridPlayer1 = document.getElementById('grid-player1')
+    for (const child of gridPlayer1.children) {
+      if (child.classList.contains('placed') &&
+        !child.classList.contains('created')) {
+        console.log(child.textContent)
+
+        child.classList.add('created')
+        ship.push(child.textContent)
+      }
+    }
+
+    PubSub.publish('got_ship_from_DOM', {
+      coordinates: ship[0],
+      length: ship.length
     })
   }
 
