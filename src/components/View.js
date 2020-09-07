@@ -3,25 +3,11 @@ import PubSub from 'pubsub-js'
 export class View {
   static init () {
     const rootElement = document.getElementById('app')
-    /* Header */
-    const header = this.createElement('h1', null, 'header', rootElement)
-    header.textContent = 'Battleship'
-
-    /* 2 blocks with players' names */
-    const blockNames =
-      this.createElement('div', null, 'block-name', rootElement)
-
-    const blockName1 =
-      this.createElement('p', 'name', 'block-name1', blockNames)
-    blockName1.textContent = 'Player 1'
-
-    const blockName2 =
-      this.createElement('p', 'name', 'block-name2', blockNames)
-    blockName2.textContent = 'Player 2'
 
     /* Draggable ship elements */
     const shipElements = document.querySelectorAll('.ship')
     shipElements.forEach(element => {
+      /* Drag Start */
       element.addEventListener('dragstart', (e) => {
         element.id = 'dragged'
 
@@ -33,6 +19,7 @@ export class View {
         e.dataTransfer.effectAllowed = 'move'
       })
 
+      /* Drag End */
       element.addEventListener('dragend', (e) => {
         element.removeAttribute('id')
       })
@@ -120,27 +107,29 @@ export class View {
     })
 
     /* Drop area for draggable ships */
-
     gridPlayer1.childNodes.forEach(child => {
+      /* Drag Enter */
       child.addEventListener('dragenter', (e) => {
         e.preventDefault()
       })
 
+      /* Drag Over */
       child.addEventListener('dragover', (e) => {
         e.preventDefault()
 
         /* Getting the length */
         const dataType =
           e.dataTransfer.types.find(type => /length\/[0-9]/.test(type))
-        // const styleHover = 'background-color: green; opacity: .5'
 
         this.styleItemsReactively(child, parseInt(dataType.slice(-1)), 'hover')
       })
 
+      /* Drag Leave */
       child.addEventListener('dragleave', (e) => {
         this.styleItemsReactively(child, 4, null, 'hover')
       })
 
+      /* Drop */
       child.addEventListener('drop', (e) => {
         e.preventDefault()
         const draggedId = e.dataTransfer.getData('text/id')
@@ -153,7 +142,6 @@ export class View {
         /* Getting the length */
         const dataType =
           e.dataTransfer.types.find(type => /length\/[0-9]/.test(type))
-        // const styleHover = 'background-color: red'
 
         this.styleItemsReactively(child, parseInt(dataType.slice(-1)), 'placed', 'hover')
         child.classList.remove('hover')
@@ -162,6 +150,7 @@ export class View {
       })
     })
 
+    /* Update grids and change turns after has made their turn */
     PubSub.subscribe('attack_is_executed', (msg, data) => {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
       this.changeTurns(data.player)
