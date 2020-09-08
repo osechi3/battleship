@@ -4,26 +4,6 @@ export class View {
   static init () {
     const blockMain = document.getElementById('block-main')
 
-    /* Draggable ship elements */
-    const shipElements = document.querySelectorAll('.ship')
-    shipElements.forEach(element => {
-      /* Drag Start */
-      element.addEventListener('dragstart', (e) => {
-        element.id = 'dragged'
-
-        const childrenLength = element.children.length
-
-        e.dataTransfer.setData('text/id', element.id)
-        e.dataTransfer.setData(`length/${childrenLength}`, childrenLength)
-        e.dataTransfer.effectAllowed = 'move'
-      })
-
-      /* Drag End */
-      element.addEventListener('dragend', (e) => {
-        element.removeAttribute('id')
-      })
-    })
-
     /* Grid */
     this.initGrid(blockMain)
 
@@ -84,7 +64,7 @@ export class View {
     /* Grid items of the first player */
     for (let item = 0; item < 100; item++) {
       const gridItem =
-        this.createElement('div', 'grid-item', null, gridPlayer1)
+        this.createElement('div', 'grid-item row', null, gridPlayer1)
 
       /* Adjusting numbers in divs and casting numbers to strings */
       if (item >= 10) {
@@ -124,63 +104,11 @@ export class View {
       })
     })
 
-    /* Drop area for draggable ships */
-    gridPlayer1.childNodes.forEach(child => {
-      /* Drag Enter */
-      child.addEventListener('dragenter', (e) => {
-        e.preventDefault()
-      })
-
-      /* Drag Over */
-      child.addEventListener('dragover', (e) => {
-        e.preventDefault()
-
-        /* Getting the length */
-        const dataType =
-          e.dataTransfer.types.find(type => /length\/[0-9]/.test(type))
-
-        this.styleItemsReactively(child, parseInt(dataType.slice(-1)), 'hover')
-      })
-
-      /* Drag Leave */
-      child.addEventListener('dragleave', (e) => {
-        this.styleItemsReactively(child, 4, null, 'hover')
-      })
-
-      /* Drop */
-      child.addEventListener('drop', (e) => {
-        e.preventDefault()
-        const draggedId = e.dataTransfer.getData('text/id')
-
-        document.getElementById(draggedId).remove()
-
-        /* Getting the length */
-        const dataType =
-          e.dataTransfer.types.find(type => /length\/[0-9]/.test(type))
-
-        this.styleItemsReactively(child, parseInt(dataType.slice(-1)), 'placed', 'hover')
-        child.classList.remove('hover')
-
-        this.getShipFromDOM()
-      })
-    })
-
-    /* Update grids and change turns after has made their turn */
+    /* Update grids and change turns after a player has made their turn */
     PubSub.subscribe('attack_is_executed', (msg, data) => {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
       this.changeTurns(data.player)
     })
-  }
-
-  static styleItemsReactively (element, amount, className, classToRemove) {
-    if (!element) return
-    if (classToRemove) element.classList.remove(classToRemove)
-    if (className) element.classList.add(className)
-    if (amount === 1) return
-
-    return this.styleItemsReactively(
-      element.nextElementSibling, amount - 1, className, classToRemove
-    )
   }
 
   static getShipFromDOM () {
