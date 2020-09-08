@@ -15,13 +15,13 @@ export class View {
         if (shipInput.value.length > 1) {
           for (const item of gridPlayer1.children) {
             if (shipInput.value === item.textContent) {
-              this.styleItemsReactively(item, shipLength, 'placed', shipId, 'add')
+              this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'add')
             }
           }
         } else {
           for (const item of gridPlayer1.children) {
             if (shipId === item.id) {
-              this.styleItemsReactively(item, shipLength, 'placed', shipId, 'remove')
+              this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'remove')
             }
           }
         }
@@ -135,7 +135,7 @@ export class View {
     })
   }
 
-  static styleItemsReactively (element, amount, className, itemId, addOrRemove) {
+  static styleItemsDynamically (element, amount, className, itemId, addOrRemove) {
     if (!element) return
     if (!this.checkIfPositionAllowed(element)) return
     if (addOrRemove === 'add') {
@@ -147,7 +147,7 @@ export class View {
     }
     if (amount === 1) return
 
-    return this.styleItemsReactively(
+    return this.styleItemsDynamically(
       element.nextElementSibling, amount - 1, className, itemId, addOrRemove
     )
   }
