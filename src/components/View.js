@@ -4,6 +4,30 @@ export class View {
   static init () {
     const blockMain = document.getElementById('block-main')
 
+    /* Ships */
+    const shipsInput = document.querySelectorAll('.input-position')
+    shipsInput.forEach(shipInput => {
+      shipInput.addEventListener('input', () => {
+        const gridPlayer1 = document.getElementById('grid-player1')
+        const shipLength = shipInput.parentElement.parentElement.children.length
+        const shipId = shipInput.parentElement.parentElement.id
+
+        if (shipInput.value.length > 1) {
+          for (const item of gridPlayer1.children) {
+            if (shipInput.value === item.textContent) {
+              this.styleItemsReactively(item, shipLength, 'placed', shipId, 'add')
+            }
+          }
+        } else {
+          for (const item of gridPlayer1.children) {
+            if (shipId === item.id) {
+              this.styleItemsReactively(item, shipLength, 'placed', shipId, 'remove')
+            }
+          }
+        }
+      })
+    })
+
     /* Grid */
     this.initGrid(blockMain)
 
@@ -111,15 +135,20 @@ export class View {
     })
   }
 
-  static styleItemsReactively (element, amount, className, classToRemove) {
+  static styleItemsReactively (element, amount, className, itemId, addOrRemove) {
     if (!element) return
     if (!this.checkIfPositionAllowed(element)) return
-    if (classToRemove) element.classList.remove(classToRemove)
-    if (className) element.classList.add(className)
+    if (addOrRemove === 'add') {
+      element.classList.add(className)
+      element.id = itemId
+    } else if (addOrRemove === 'remove') {
+      element.classList.remove(className)
+      element.removeAttribute('id', itemId)
+    }
     if (amount === 1) return
 
     return this.styleItemsReactively(
-      element.nextElementSibling, amount - 1, className, classToRemove
+      element.nextElementSibling, amount - 1, className, itemId, addOrRemove
     )
   }
 
