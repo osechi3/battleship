@@ -64,7 +64,7 @@ export class View {
     /* Grid items of the first player */
     for (let item = 0; item < 100; item++) {
       const gridItem =
-        this.createElement('div', 'grid-item row', null, gridPlayer1)
+        this.createElement('div', 'grid-item', null, gridPlayer1)
 
       /* Adjusting numbers in divs and casting numbers to strings */
       if (item >= 10) {
@@ -109,6 +109,26 @@ export class View {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
       this.changeTurns(data.player)
     })
+  }
+
+  static styleItemsReactively (element, amount, className, classToRemove) {
+    if (!element) return
+    if (!this.checkIfPositionAllowed(element)) return
+    if (classToRemove) element.classList.remove(classToRemove)
+    if (className) element.classList.add(className)
+    if (amount === 1) return
+
+    return this.styleItemsReactively(
+      element.nextElementSibling, amount - 1, className, classToRemove
+    )
+  }
+
+  static checkIfPositionAllowed (element) {
+    if (element.textContent === '') {
+      return false
+    } else {
+      return true
+    }
   }
 
   static getShipFromDOM () {
