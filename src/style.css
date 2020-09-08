@@ -31,6 +31,10 @@ body {
   margin: 5px;
 }
 .ship-part {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   width: 38px;
   height: 38px;
 
@@ -99,4 +103,14 @@ body {
 
 .placed-incorrectly {
   background-color: blue;
+}
+
+.input-position {
+  width: 30px;
+  height: 30px;
+
+  text-align: center;
+  font-size: 18px;
+
+  border: none;
 }
