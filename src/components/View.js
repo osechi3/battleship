@@ -26,6 +26,18 @@ export class View {
           }
         }
       })
+
+      PubSub.subscribe('invalid_input', (msg, { element, elementId }) => {
+        if (elementId) {
+          const currentInputField = document.querySelector(`#${elementId} input`)
+          currentInputField.classList.add('input-invalid')
+        } else {
+          const currentInputField = document.querySelector('.input-invalid')
+          if (currentInputField !== null) {
+            currentInputField.classList.remove('input-invalid')
+          }
+        }
+      })
     })
 
     /* Grid */
@@ -87,6 +99,12 @@ export class View {
 
     /* Grid items of the first player */
     for (let item = 0; item < 100; item++) {
+      /* Adding a hidden element to check for
+      incorrect horizontal positioning */
+      if (item !== 0 && item % 10 === 0) {
+        this.createElement('div', 'hidden-item', null, gridPlayer1)
+      }
+
       const gridItem =
         this.createElement('div', 'grid-item', null, gridPlayer1)
 
@@ -154,10 +172,19 @@ export class View {
 
   static checkIfPositionAllowed (element) {
     if (element.textContent === '') {
+      console.log('Not Allowed')
+      this.alertUserInvalidInput(element)
       return false
     } else {
       return true
     }
+  }
+
+  static alertUserInvalidInput (element) {
+    PubSub.publish('invalid_input', {
+      element,
+      elementId: element.previousElementSibling.id
+    })
   }
 
   static getShipFromDOM () {

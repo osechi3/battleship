@@ -114,3 +114,11 @@ body {
 
   border: none;
 }
+
+.hidden-item {
+  position: absolute;
+}
+
+.input-invalid {
+  color: red
+}
