@@ -6,9 +6,27 @@ export class View {
 
     /* Ships */
     const shipsInput = document.querySelectorAll('.input-position')
-    shipsInput.forEach(shipInput => {
+    shipsInput.forEach((shipInput, i, arr) => {
       shipInput.addEventListener('input', () => {
-        this.changeShipPositionOnGrid(shipInput)
+        let sameAsSiblings = false
+        let counter = 0
+        for (const item of arr) {
+          if (item.value === shipInput.value && shipInput.value !== '') {
+            counter++
+
+            if (counter > 1) {
+              sameAsSiblings = true
+              break
+            }
+          }
+        }
+
+        if (!sameAsSiblings) {
+          this.changeShipPositionOnGrid(shipInput)
+          shipInput.classList.remove('input-invalid')
+        } else {
+          shipInput.classList.add('input-invalid')
+        }
       })
 
       PubSub.subscribe('invalid_input', (msg, { element, elementId }) => {
