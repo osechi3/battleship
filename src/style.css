@@ -61,7 +61,7 @@ body {
   color: red
 }
 
-/* Grid block */
+/* Grid blocks */
 .block-grid {
   display: flex;
   flex-direction: column;
