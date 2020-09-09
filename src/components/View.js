@@ -8,20 +8,7 @@ export class View {
     const shipsInput = document.querySelectorAll('.input-position')
     shipsInput.forEach((shipInput, i, arr) => {
       shipInput.addEventListener('input', () => {
-        let sameAsSiblings = false
-        let counter = 0
-        for (const item of arr) {
-          if (item.value === shipInput.value && shipInput.value !== '') {
-            counter++
-
-            if (counter > 1) {
-              sameAsSiblings = true
-              break
-            }
-          }
-        }
-
-        if (!sameAsSiblings) {
+        if (!this.checkIfSameAsSiblingElements(shipInput, arr)) {
           this.changeShipPositionOnGrid(shipInput)
           shipInput.classList.remove('input-invalid')
         } else {
@@ -190,6 +177,22 @@ export class View {
     return this.styleItemsDynamically(
       element.nextElementSibling, amount - 1, className, itemId, addOrRemove
     )
+  }
+
+  static checkIfSameAsSiblingElements (shipInput, arr) {
+    let sameAsSiblings = false
+    let counter = 0
+    for (const item of arr) {
+      if (item.value === shipInput.value && shipInput.value !== '') {
+        counter++
+
+        if (counter > 1) {
+          sameAsSiblings = true
+          break
+        }
+      }
+    }
+    return sameAsSiblings
   }
 
   static checkIfPositionAllowed (element, itemId) {
