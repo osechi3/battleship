@@ -14,11 +14,17 @@ class Game {
     View.init()
 
     /* When the first player places a ship onto the grid */
-    PubSub.subscribe('got_ship_from_DOM', (msg, { coordinates, length }) => {
+    PubSub.subscribe('got_ship_from_DOM', (msg, { coordinates, length, shipId }) => {
       const x = parseInt(coordinates[0])
       const y = parseInt(coordinates[1])
       player1
-        .gameboard.createShipOnGameboard(new Ship(length, x, y, 'horizontal'))
+        .gameboard.createShipOnGameboard(new Ship(length, x, y, 'horizontal', shipId))
+    })
+
+    /* When the first player removes a ship from the grid */
+    PubSub.subscribe('ship_deleted_from_DOM', (msg, shipId) => {
+      // Write it and fix tests
+      player1.gameboard.deleteShipFromGameboard(shipId)
     })
 
     PubSub.subscribe('clicked_btn_start_game', () => {

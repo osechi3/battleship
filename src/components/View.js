@@ -16,12 +16,16 @@ export class View {
           for (const item of gridPlayer1.children) {
             if (shipInput.value === item.textContent) {
               this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'add')
+              this.getShipFromDOM()
             }
           }
         } else {
           for (const item of gridPlayer1.children) {
             if (shipId === item.id) {
+              this.styleItemsDynamically(item, shipLength, 'created', shipId, 'remove')
               this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'remove')
+
+              PubSub.publish('ship_deleted_from_DOM', shipId)
             }
           }
         }
@@ -189,12 +193,14 @@ export class View {
 
   static getShipFromDOM () {
     const ship = []
+    let shipId = ''
     const gridPlayer1 = document.getElementById('grid-player1')
     for (const child of gridPlayer1.children) {
       if (child.classList.contains('placed') &&
         !child.classList.contains('created')) {
         console.log(child.textContent)
 
+        shipId = child.id
         child.classList.add('created')
         ship.push(child.textContent)
       }
@@ -202,7 +208,8 @@ export class View {
 
     PubSub.publish('got_ship_from_DOM', {
       coordinates: ship[0],
-      length: ship.length
+      length: ship.length,
+      shipId
     })
   }
 

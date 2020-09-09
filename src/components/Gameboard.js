@@ -39,6 +39,10 @@ export class Gameboard {
     this.aliveShips.push(this.createShip(ship))
   }
 
+  deleteShipFromGameboard (shipId) {
+    this.aliveShips = this.aliveShips.filter(ship => shipId !== ship.shipId)
+  }
+
   receiveAttack (coordinates, player) {
     const isHit = this.aliveShips.some(ship => {
       return ship.body.some(position => {

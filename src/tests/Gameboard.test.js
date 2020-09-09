@@ -12,7 +12,8 @@ describe('Creating new ships on the gameboard with createShip function',
           y: 0,
           direction: 'vertical',
           body: ['10', '11', '12'],
-          isSunk: false
+          isSunk: false,
+          shipId: ''
         })
     })
 
@@ -25,7 +26,8 @@ describe('Creating new ships on the gameboard with createShip function',
           y: 2,
           direction: 'vertical',
           body: ['52', '53'],
-          isSunk: false
+          isSunk: false,
+          shipId: ''
         })
     })
 
@@ -38,7 +40,8 @@ describe('Creating new ships on the gameboard with createShip function',
           y: 2,
           direction: 'horizontal',
           body: ['52', '62'],
-          isSunk: false
+          isSunk: false,
+          shipId: ''
         })
     })
 
@@ -51,7 +54,8 @@ describe('Creating new ships on the gameboard with createShip function',
           y: 3,
           direction: 'horizontal',
           body: ['23', '33', '43', '53'],
-          isSunk: false
+          isSunk: false,
+          shipId: ''
         })
     })
 
@@ -64,7 +68,8 @@ describe('Creating new ships on the gameboard with createShip function',
           y: 0,
           direction: 'horizontal',
           body: ['00', '10', '20', '30'],
-          isSunk: false
+          isSunk: false,
+          shipId: ''
         })
     })
 

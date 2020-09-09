@@ -1,13 +1,14 @@
 import PubSub from 'pubsub-js'
 
 export class Ship {
-  constructor (length, x, y, direction = 'vertical') {
+  constructor (length, x, y, direction = 'vertical', shipId = '') {
     this.length = length
     this.x = x
     this.y = y
     this.direction = direction
     this.body = []
     this.isSunk = false
+    this.shipId = shipId
   }
 
   hit (coordinates) {
