@@ -8,27 +8,7 @@ export class View {
     const shipsInput = document.querySelectorAll('.input-position')
     shipsInput.forEach(shipInput => {
       shipInput.addEventListener('input', () => {
-        const gridPlayer1 = document.getElementById('grid-player1')
-        const shipLength = shipInput.parentElement.parentElement.children.length
-        const shipId = shipInput.parentElement.parentElement.id
-
-        if (shipInput.value.length > 1) {
-          for (const item of gridPlayer1.children) {
-            if (shipInput.value === item.textContent) {
-              this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'add')
-              this.getShipFromDOM()
-            }
-          }
-        } else {
-          for (const item of gridPlayer1.children) {
-            if (shipId === item.id) {
-              this.styleItemsDynamically(item, shipLength, 'created', shipId, 'remove')
-              this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'remove')
-
-              PubSub.publish('ship_deleted_from_DOM', shipId)
-            }
-          }
-        }
+        this.changeShipPositionOnGrid(shipInput)
       })
 
       PubSub.subscribe('invalid_input', (msg, { element, elementId }) => {
@@ -151,6 +131,30 @@ export class View {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
       this.changeTurns(data.player)
     })
+  }
+
+  static changeShipPositionOnGrid (shipInput) {
+    const gridPlayer1 = document.getElementById('grid-player1')
+    const shipLength = shipInput.parentElement.parentElement.children.length
+    const shipId = shipInput.parentElement.parentElement.id
+
+    if (shipInput.value.length > 1) {
+      for (const item of gridPlayer1.children) {
+        if (shipInput.value === item.textContent) {
+          this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'add')
+          this.getShipFromDOM()
+        }
+      }
+    } else {
+      for (const item of gridPlayer1.children) {
+        if (shipId === item.id) {
+          this.styleItemsDynamically(item, shipLength, 'created', shipId, 'remove')
+          this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'remove')
+
+          PubSub.publish('ship_deleted_from_DOM', shipId)
+        }
+      }
+    }
   }
 
   static styleItemsDynamically (element, amount, className, itemId, addOrRemove) {
