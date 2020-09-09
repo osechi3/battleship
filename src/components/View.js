@@ -80,15 +80,8 @@ export class View {
     buttonStartGame.type = 'button'
     buttonStartGame.textContent = 'Start Game'
 
-    buttonStartGame.addEventListener('click', () => {
-      const inputsInvalid = document.querySelectorAll('.input-invalid')
-      if (inputsInvalid.length < 1) {
-        containerError.classList.add('hidden')
-        PubSub.publish('clicked_btn_start_game')
-      } else {
-        containerError.classList.remove('hidden')
-      }
-    })
+    buttonStartGame
+      .addEventListener('click', this.checkInvalidInputOnStartGame)
 
     /* A container for error messages pertaining the start of the game */
     const containerError = this.createElement('div', 'error hidden', 'error-start', blockStartGame)
@@ -198,6 +191,17 @@ export class View {
       return false
     } else {
       return true
+    }
+  }
+
+  static checkInvalidInputOnStartGame () {
+    const containerError = document.querySelector('#error-start')
+    const inputsInvalid = document.querySelectorAll('.input-invalid')
+    if (inputsInvalid.length < 1) {
+      containerError.classList.add('hidden')
+      PubSub.publish('clicked_btn_start_game')
+    } else {
+      containerError.classList.remove('hidden')
     }
   }
 
