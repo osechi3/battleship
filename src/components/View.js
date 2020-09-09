@@ -31,21 +31,8 @@ export class View {
         }
       })
 
-      /* When there is invalid input an id is set to the hidden
-      element. When the user fixes the input hidden element is found
-      through thatid. If previous siblings of the element are not
-      there (hence the user changed their position) the input is
-      considered correct -- 'input-invalid' class is removed from the
-      input and the id is removed from the hidden element */
       PubSub.subscribe('invalid_input', (msg, { element, elementId }) => {
-        const currentInputField = document.querySelector(`#${elementId} input`)
-        if (element.previousElementSibling.id) {
-          console.log(elementId)
-          currentInputField.classList.add('input-invalid')
-        } else {
-          currentInputField.classList.remove('input-invalid')
-          element.removeAttribute('id', elementId)
-        }
+        this.checkInvalidInputDynamically(element, elementId)
       })
     })
 
@@ -191,6 +178,23 @@ export class View {
       return false
     } else {
       return true
+    }
+  }
+
+  /* When there is invalid input an id is set to the hidden
+  element. When the user fixes the input hidden element is found
+  through thatid. If previous siblings of the element are not
+  there (hence the user changed their position) the input is
+  considered correct -- 'input-invalid' class is removed from the
+  input and the id is removed from the hidden element */
+  static checkInvalidInputDynamically (element, elementId) {
+    const currentInputField = document.querySelector(`#${elementId} input`)
+    if (element.previousElementSibling.id) {
+      console.log(elementId)
+      currentInputField.classList.add('input-invalid')
+    } else {
+      currentInputField.classList.remove('input-invalid')
+      element.removeAttribute('id', elementId)
     }
   }
 
