@@ -41,7 +41,7 @@ body {
   width: 38px;
   height: 38px;
 
-  background-color: red;
+  background-color: lightblue;
   outline: 1px solid;
 }
 #container-ship1 {
@@ -97,11 +97,11 @@ body {
 }
 
 .placed {
-  background-color: red;
+  background-color: lightblue;
 }
 
 .placed-incorrectly {
-  background-color: blue;
+  background-color: red;
 }
 
 .hidden-item {
