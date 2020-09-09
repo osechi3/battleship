@@ -66,17 +66,28 @@ export class View {
     })
 
     /* A button that starts the game */
+    const blockGrid2 = document.getElementById('block-grid2')
+    const blockStartGame = this.createElement('div', null, 'block-start-game')
+    blockMain.insertBefore(blockStartGame, blockGrid2)
+
     const buttonStartGame =
-      this.createElement('button', 'btn', 'btn-start-game')
+      this.createElement('button', 'btn', 'btn-start-game', blockStartGame)
     buttonStartGame.type = 'button'
     buttonStartGame.textContent = 'Start Game'
 
-    const blockGrid2 = document.getElementById('block-grid2')
-    blockMain.insertBefore(buttonStartGame, blockGrid2)
-
     buttonStartGame.addEventListener('click', () => {
-      PubSub.publish('clicked_btn_start_game')
+      const inputsInvalid = document.querySelectorAll('.input-invalid')
+      if (inputsInvalid.length < 1) {
+        containerError.classList.add('hidden')
+        PubSub.publish('clicked_btn_start_game')
+      } else {
+        containerError.classList.remove('hidden')
+      }
     })
+
+    /* A container for error messages pertaining the start of the game */
+    const containerError = this.createElement('div', 'error hidden', 'error-start', blockStartGame)
+    containerError.textContent = 'You can\'t start the game when there are ships positioned incorrectly'
   }
 
   static initGrid (rootElement) {
