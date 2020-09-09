@@ -31,15 +31,20 @@ export class View {
         }
       })
 
+      /* When there is invalid input an id is set to the hidden
+      element. When the user fixes the input hidden element is found
+      through thatid. If previous siblings of the element are not
+      there (hence the user changed their position) the input is
+      considered correct -- 'input-invalid' class is removed from the
+      input and the id is removed from the hidden element */
       PubSub.subscribe('invalid_input', (msg, { element, elementId }) => {
-        if (elementId) {
-          const currentInputField = document.querySelector(`#${elementId} input`)
+        const currentInputField = document.querySelector(`#${elementId} input`)
+        if (element.previousElementSibling.id) {
+          console.log(elementId)
           currentInputField.classList.add('input-invalid')
         } else {
-          const currentInputField = document.querySelector('.input-invalid')
-          if (currentInputField !== null) {
-            currentInputField.classList.remove('input-invalid')
-          }
+          currentInputField.classList.remove('input-invalid')
+          element.removeAttribute('id', elementId)
         }
       })
     })
@@ -170,7 +175,7 @@ export class View {
 
   static styleItemsDynamically (element, amount, className, itemId, addOrRemove) {
     if (!element) return
-    if (!this.checkIfPositionAllowed(element)) return
+    if (!this.checkIfPositionAllowed(element, itemId)) return
     if (addOrRemove === 'add') {
       element.classList.add(className)
       element.id = itemId
@@ -185,9 +190,10 @@ export class View {
     )
   }
 
-  static checkIfPositionAllowed (element) {
+  static checkIfPositionAllowed (element, itemId) {
     if (element.textContent === '') {
       console.log('Not Allowed')
+      element.id = itemId
       this.alertUserInvalidInput(element)
       return false
     } else {
@@ -198,7 +204,7 @@ export class View {
   static alertUserInvalidInput (element) {
     PubSub.publish('invalid_input', {
       element,
-      elementId: element.previousElementSibling.id
+      elementId: element.id
     })
   }
 
