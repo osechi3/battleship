@@ -29,8 +29,8 @@ export class View {
         }
       })
 
-      PubSub.subscribe('invalid_input', (msg, { element, elementId }) => {
-        this.checkInvalidInputDynamically(element, elementId)
+      PubSub.subscribe('invalid_position', (msg, { element, elementId }) => {
+        this.checkInvalidPositionDynamically(element, elementId)
       })
     })
 
@@ -66,7 +66,7 @@ export class View {
     buttonStartGame.textContent = 'Start Game'
 
     buttonStartGame
-      .addEventListener('click', this.checkInvalidInputOnStartGame)
+      .addEventListener('click', this.checkInvalidPositionOnStartGame)
 
     /* A container for error messages pertaining the start of the game */
     const containerError = this.createElement('div', 'error hidden', 'error-start', blockStartGame)
@@ -196,7 +196,7 @@ export class View {
     if (element.textContent === '') {
       console.log('Not Allowed')
       element.id = itemId
-      this.alertUserInvalidInput(element)
+      this.alertUserInvalidPosition(element)
       return false
     } else {
       return true
@@ -209,7 +209,7 @@ export class View {
   there (hence the user changed their position) the input is
   considered correct -- 'input-invalid' class is removed from the
   input and the id is removed from the hidden element */
-  static checkInvalidInputDynamically (element, elementId) {
+  static checkInvalidPositionDynamically (element, elementId) {
     const currentInputField = document.querySelector(`#${elementId} input`)
     if (element.previousElementSibling.id) {
       console.log(elementId)
@@ -220,7 +220,7 @@ export class View {
     }
   }
 
-  static checkInvalidInputOnStartGame () {
+  static checkInvalidPositionOnStartGame () {
     const containerError = document.querySelector('#error-start')
     const inputsInvalid = document.querySelectorAll('.input-invalid')
     if (inputsInvalid.length < 1) {
@@ -231,8 +231,8 @@ export class View {
     }
   }
 
-  static alertUserInvalidInput (element) {
-    PubSub.publish('invalid_input', {
+  static alertUserInvalidPosition (element) {
+    PubSub.publish('invalid_position', {
       element,
       elementId: element.id
     })
