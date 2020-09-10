@@ -61,6 +61,9 @@ export class View {
 
     /* A container for error messages pertaining the start of the game */
     this.createElement('div', 'error hidden', 'error-start', blockStartGame)
+
+    /* Resetting input fields */
+    this.resetInputFieldsPosition()
   }
 
   static initGrid (rootElement) {
@@ -348,5 +351,13 @@ export class View {
     if (elementId) element.id = elementId
     if (appendTo) appendTo.append(element)
     return element
+  }
+
+  static resetInputFieldsPosition () {
+    const inputFields = document.querySelectorAll('.input-position')
+
+    for (const field of inputFields) {
+      field.value = ''
+    }
   }
 }
