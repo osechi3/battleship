@@ -289,27 +289,16 @@ export class View {
     })
   }
 
-  static placeShips (player1, player2) {
-    const shipsPlayer1 = player1.gameboard.aliveShips
-    const gridPlayer1 = document.getElementById('grid-player1')
-    const shipsPlayer2 = player2.gameboard.aliveShips
-    const gridPlayer2 = document.getElementById('grid-player2')
+  static placeShips (player) {
+    const shipsPlayer = player.gameboard.aliveShips
+    const gridPlayer =
+      document.getElementById(`grid-${player.gameboard.player}`)
 
-    shipsPlayer1.forEach(ship => {
+    shipsPlayer.forEach(ship => {
       ship.body.forEach(position => {
         for (let item = 0; item < 100; item++) {
-          if (position === gridPlayer1.childNodes[item].textContent) {
-            gridPlayer1.childNodes[item].style.backgroundColor = 'red'
-          }
-        }
-      })
-    })
-
-    shipsPlayer2.forEach(ship => {
-      ship.body.forEach(position => {
-        for (let item = 0; item < 100; item++) {
-          if (position === gridPlayer2.childNodes[item].textContent) {
-            gridPlayer2.childNodes[item].style.backgroundColor = 'red'
+          if (position === gridPlayer.childNodes[item].textContent) {
+            gridPlayer.childNodes[item].style.backgroundColor = 'red'
           }
         }
       })

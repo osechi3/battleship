@@ -50,7 +50,8 @@ class Game {
   }
 
   static initGame (player1, player2) {
-    View.placeShips(player1, player2)
+    View.placeShips(player1)
+    View.placeShips(player2)
   }
 
   static gameOver (player) {
