@@ -93,6 +93,11 @@ export class View {
       const gridItem =
         this.createElement('div', 'grid-item', null, gridPlayer1)
 
+      // Adding a hidden element to the end of the grid
+      if (item === 99) {
+        this.createElement('div', 'hidden-item', null, gridPlayer1)
+      }
+
       /* Adjusting numbers in divs and casting numbers to strings */
       if (item >= 10) {
         gridItem.textContent = item.toString().split('').reverse().join('')
