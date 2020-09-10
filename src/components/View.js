@@ -52,8 +52,10 @@ export class View {
     buttonStartGame.type = 'button'
     buttonStartGame.textContent = 'Start Game'
 
-    buttonStartGame
-      .addEventListener('click', this.checkInvalidPositionOnStartGame)
+    buttonStartGame.addEventListener('click', () => {
+      this.checkShipsNotPlacedOnStartGame()
+      this.checkInvalidPositionOnStartGame()
+    })
 
     /* A container for error messages pertaining the start of the game */
     const containerError = this.createElement('div', 'error hidden', 'error-start', blockStartGame)
@@ -222,6 +224,16 @@ export class View {
       currentInputField.classList.remove('input-invalid')
       element.removeAttribute('id', elementId)
     }
+  }
+
+  static checkShipsNotPlacedOnStartGame () {
+    const shipInputFields = document.querySelectorAll('.input-position')
+
+    for (const field of shipInputFields) {
+      if (field.value === '') return false
+    }
+
+    return true
   }
 
   static checkInvalidPositionOnStartGame () {
