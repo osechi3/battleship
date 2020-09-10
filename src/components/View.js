@@ -180,19 +180,15 @@ export class View {
   }
 
   static checkIfSameAsSiblingElements (shipInput, arr) {
-    let sameAsSiblings = false
-    let counter = 0
-    for (const item of arr) {
-      if (item.value === shipInput.value && shipInput.value !== '') {
-        counter++
+    const gridPlayer1 = document.getElementById('grid-player1')
 
-        if (counter > 1) {
-          sameAsSiblings = true
-          break
-        }
+    for (const child of gridPlayer1.children) {
+      if (shipInput.value === child.textContent &&
+          child.classList.contains('placed')) {
+        console.log('Nope')
+        return true
       }
     }
-    return sameAsSiblings
   }
 
   static checkIfPositionAllowed (element, itemId) {
