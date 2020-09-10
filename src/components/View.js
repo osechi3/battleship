@@ -53,13 +53,14 @@ export class View {
     buttonStartGame.textContent = 'Start Game'
 
     buttonStartGame.addEventListener('click', () => {
-      this.checkShipsNotPlacedOnStartGame()
-      this.checkInvalidPositionOnStartGame()
+      if (this.checkShipsNotPlacedOnStartGame() === true &&
+          this.checkInvalidPositionOnStartGame() === true) {
+        PubSub.publish('clicked_btn_start_game')
+      }
     })
 
     /* A container for error messages pertaining the start of the game */
-    const containerError = this.createElement('div', 'error hidden', 'error-start', blockStartGame)
-    containerError.textContent = 'You can\'t start the game when there are ships positioned incorrectly'
+    this.createElement('div', 'error hidden', 'error-start', blockStartGame)
   }
 
   static initGrid (rootElement) {
@@ -228,11 +229,17 @@ export class View {
 
   static checkShipsNotPlacedOnStartGame () {
     const shipInputFields = document.querySelectorAll('.input-position')
+    const containerError = document.querySelector('#error-start')
 
     for (const field of shipInputFields) {
-      if (field.value === '') return false
+      if (field.value === '') {
+        containerError.textContent = 'Please place all ships onto the grid.'
+        containerError.classList.remove('hidden')
+        return false
+      }
     }
 
+    containerError.classList.add('hidden')
     return true
   }
 
@@ -241,9 +248,12 @@ export class View {
     const inputsInvalid = document.querySelectorAll('.input-invalid')
     if (inputsInvalid.length < 1) {
       containerError.classList.add('hidden')
-      PubSub.publish('clicked_btn_start_game')
+      return true
     } else {
+      containerError.textContent =
+        'You can\'t start the game when there are ships positioned incorrectly'
       containerError.classList.remove('hidden')
+      return false
     }
   }
 
