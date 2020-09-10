@@ -114,8 +114,19 @@ export class View {
 
     /* Grid items of the second player */
     for (let item = 0; item < 100; item++) {
+      /* Adding a hidden element to check for
+      incorrect horizontal positioning */
+      if (item !== 0 && item % 10 === 0) {
+        this.createElement('div', 'hidden-item', null, gridPlayer2)
+      }
+
       const gridItem =
         this.createElement('div', 'grid-item', null, gridPlayer2)
+
+      // Adding a hidden element to the end of the grid
+      if (item === 99) {
+        this.createElement('div', 'hidden-item', null, gridPlayer2)
+      }
 
       /* Adjusting numbers in divs and casting numbers to strings */
       if (item >= 10) {
@@ -296,7 +307,7 @@ export class View {
 
     shipsPlayer.forEach(ship => {
       ship.body.forEach(position => {
-        for (let item = 0; item < 100; item++) {
+        for (let item = 0; item < 110; item++) {
           if (position === gridPlayer.childNodes[item].textContent) {
             gridPlayer.childNodes[item].style.backgroundColor = 'red'
           }
