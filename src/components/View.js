@@ -11,6 +11,12 @@ export class View {
       PubSub.publish('clicked_btn_start_game')
     })
 
+    const buttonResetPlacement =
+      document.getElementById('button-reset-placement')
+    buttonResetPlacement.addEventListener('click', () => {
+      this.resetShipPlacement()
+    })
+
     /* Ships */
     const shipsInput = document.querySelectorAll('.input-position')
     shipsInput.forEach((shipInput, i, arr) => {
@@ -165,6 +171,21 @@ export class View {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
       this.changeTurns(data.player)
     })
+  }
+
+  static resetShipPlacement () {
+    const inputFields = document.querySelectorAll('.input-position')
+    const gridPlayer1 = document.getElementById('grid-player1')
+
+    inputFields.forEach(field => {
+      field.value = ''
+    })
+
+    for (const child of gridPlayer1.children) {
+      child.removeAttribute('id')
+      child.classList.remove('placed')
+      child.classList.remove('created')
+    }
   }
 
   static changeShipPositionOnGrid (shipInput) {
