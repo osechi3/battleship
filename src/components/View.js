@@ -4,6 +4,13 @@ export class View {
   static init () {
     const blockMain = document.getElementById('block-main')
 
+    /* Placement buttons */
+    const buttonRandom = document.getElementById('button-random')
+    buttonRandom.addEventListener('click', () => {
+      this.placeShipsOnGridRandomly()
+      PubSub.publish('clicked_btn_start_game')
+    })
+
     /* Ships */
     const shipsInput = document.querySelectorAll('.input-position')
     shipsInput.forEach((shipInput, i, arr) => {
@@ -181,6 +188,94 @@ export class View {
           PubSub.publish('ship_deleted_from_DOM', shipId)
         }
       }
+    }
+  }
+
+  static placeShipsOnGridRandomly () {
+    const gridPlayer1 = document.getElementById('grid-player1')
+    const oldCoordinates = []
+
+    for (let i = 1; i <= 10; i++) {
+      let coordinates = 0
+      let length = 0
+
+      if (i <= 4) {
+        length = 1
+      } else if (i <= 7) {
+        length = 2
+      } else if (i <= 9) {
+        length = 3
+      } else if (i === 10) {
+        length = 4
+      }
+
+      coordinates = this.getRandomNumber(length, oldCoordinates)
+
+      /* Adding new coordinates into an array of used coordinates */
+      for (let increment = 0; increment < length; increment++) {
+        oldCoordinates.push(coordinates + (increment * 10))
+      }
+
+      const shipId = `ship${length}-${i}`
+
+      /* Casting to a string to search for in the DOM */
+      if (coordinates < 10) {
+        coordinates = 0 + (coordinates + '')
+      } else {
+        coordinates += ''
+      }
+
+      /* Positioning ships on the grid  */
+      for (const child of gridPlayer1.children) {
+        if (child.textContent === coordinates) {
+          this.styleItemsDynamically(child, length, 'placed', shipId, 'add')
+        }
+      }
+
+      /* Adding the ships on the grid into aliveShips array */
+      PubSub.publish('got_ship_from_DOM', {
+        coordinates,
+        length,
+        shipId
+      })
+    }
+    console.log(oldCoordinates)
+  }
+
+  static getRandomNumber (length, oldCoordinates, iteration = 0) {
+    /* Stopping the function after 99th iteration If there is an error */
+    if (iteration > 100) {
+      throw new Error('Too much recursion')
+    }
+    iteration++
+
+    let numberRandom = Math.floor(Math.random() * 100)
+
+    /* Checking if there is the random number in the array of used coordinates
+    and also checking for future values */
+    let isOccupied
+    for (let i = 1; i <= length; i++) {
+      if (oldCoordinates.includes(numberRandom + (i * 10 - 10))) {
+        isOccupied = true
+        numberRandom = this.getRandomNumber(length, oldCoordinates, iteration)
+        break
+      } else {
+        isOccupied = false
+      }
+    }
+
+    /* Checking if the value can NOT be placed onto the grid */
+    if (numberRandom + (length * 10 - 10) >= 100 && length !== 1) {
+      console.log('Too big of a number: ' + numberRandom)
+      numberRandom = this.getRandomNumber(length, oldCoordinates, iteration)
+      console.log('New number: ' + numberRandom)
+      return numberRandom
+    } else if (isOccupied === true) {
+      numberRandom = this.getRandomNumber(length, oldCoordinates, iteration)
+      return numberRandom
+      // console.log('There was such a number: ' + numberRandom)
+    } else {
+      return numberRandom
     }
   }
 
