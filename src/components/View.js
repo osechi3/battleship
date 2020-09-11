@@ -14,7 +14,7 @@ export class View {
     const buttonResetPlacement =
       document.getElementById('button-reset-placement')
     buttonResetPlacement.addEventListener('click', () => {
-      this.resetShipPlacement()
+      this.resetShipPlacement(player1)
     })
 
     /* Ships */
@@ -173,7 +173,7 @@ export class View {
     })
   }
 
-  static resetShipPlacement () {
+  static resetShipPlacement (player) {
     const inputFields = document.querySelectorAll('.input-position')
     const gridPlayer1 = document.getElementById('grid-player1')
 
@@ -186,6 +186,8 @@ export class View {
       child.classList.remove('placed')
       child.classList.remove('created')
     }
+
+    player.gameboard.aliveShips = []
   }
 
   static changeShipPositionOnGrid (shipInput, player) {
