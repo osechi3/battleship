@@ -7,6 +7,7 @@ export class View {
     /* Placement buttons */
     const buttonRandom = document.getElementById('button-random')
     buttonRandom.addEventListener('click', () => {
+      this.resetShipPlacement(player1)
       this.placeShipsOnGridRandomly(player1)
       PubSub.publish('clicked_btn_start_game')
     })
