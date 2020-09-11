@@ -9,17 +9,20 @@ class Game {
   static init () {
     const player1 = new Player(new Gameboard('player1'), true, false)
     const player2 = new Player(new Gameboard('player2'), true, true) // Ai player
-    player2.gameboard.initShips()
 
-    View.init()
+    View.init(player1, player2)
 
     /* When the first player places a ship onto the grid */
-    PubSub.subscribe('got_ship_from_DOM', (msg, { coordinates, length, shipId }) => {
+    PubSub.subscribe('got_ship_from_DOM', (msg, { coordinates, length, shipId, player }) => {
       const x = parseInt(coordinates[0])
       const y = parseInt(coordinates[1])
-      player1
-        .gameboard.createShipOnGameboard(new Ship(length, x, y, 'horizontal', shipId))
+      player
+        .gameboard
+        .createShipOnGameboard(new Ship(length, x, y, 'horizontal', shipId))
     })
+
+    /* Placing after 'got_ship_from_DOM' event since the function below relies on it */
+    View.placeShipsOnGridRandomly(player2)
 
     /* When the first player removes a ship from the grid */
     PubSub.subscribe('ship_deleted_from_DOM', (msg, shipId) => {

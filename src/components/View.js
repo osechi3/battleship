@@ -1,13 +1,13 @@
 import PubSub from 'pubsub-js'
 
 export class View {
-  static init () {
+  static init (player1, player2) {
     const blockMain = document.getElementById('block-main')
 
     /* Placement buttons */
     const buttonRandom = document.getElementById('button-random')
     buttonRandom.addEventListener('click', () => {
-      this.placeShipsOnGridRandomly()
+      this.placeShipsOnGridRandomly(player1)
       PubSub.publish('clicked_btn_start_game')
     })
 
@@ -22,7 +22,7 @@ export class View {
     shipsInput.forEach((shipInput, i, arr) => {
       shipInput.addEventListener('input', () => {
         if (!this.checkIfSameAsSiblingElements(shipInput, arr)) {
-          this.changeShipPositionOnGrid(shipInput)
+          this.changeShipPositionOnGrid(shipInput, player1)
           shipInput.classList.remove('input-invalid')
         } else {
           shipInput.classList.add('input-invalid')
@@ -188,7 +188,7 @@ export class View {
     }
   }
 
-  static changeShipPositionOnGrid (shipInput) {
+  static changeShipPositionOnGrid (shipInput, player) {
     const gridPlayer1 = document.getElementById('grid-player1')
     const shipLength = shipInput.parentElement.parentElement.children.length
     const shipId = shipInput.parentElement.parentElement.id
@@ -197,7 +197,7 @@ export class View {
       for (const item of gridPlayer1.children) {
         if (shipInput.value === item.textContent) {
           this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'add')
-          this.getShipFromDOM()
+          this.getShipFromDOM(player)
         }
       }
     } else {
@@ -212,8 +212,9 @@ export class View {
     }
   }
 
-  static placeShipsOnGridRandomly () {
-    const gridPlayer1 = document.getElementById('grid-player1')
+  static placeShipsOnGridRandomly (player) {
+    const gridPlayer =
+      document.getElementById(`grid-${player.gameboard.player}`)
     const oldCoordinates = []
 
     for (let i = 1; i <= 10; i++) {
@@ -247,7 +248,7 @@ export class View {
       }
 
       /* Positioning ships on the grid  */
-      for (const child of gridPlayer1.children) {
+      for (const child of gridPlayer.children) {
         if (child.textContent === coordinates) {
           this.styleItemsDynamically(child, length, 'placed', shipId, 'add')
         }
@@ -257,7 +258,8 @@ export class View {
       PubSub.publish('got_ship_from_DOM', {
         coordinates,
         length,
-        shipId
+        shipId,
+        player
       })
     }
     console.log(oldCoordinates)
@@ -394,7 +396,7 @@ export class View {
     })
   }
 
-  static getShipFromDOM () {
+  static getShipFromDOM (player) {
     const ship = []
     let shipId = ''
     const gridPlayer1 = document.getElementById('grid-player1')
@@ -412,7 +414,8 @@ export class View {
     PubSub.publish('got_ship_from_DOM', {
       coordinates: ship[0],
       length: ship.length,
-      shipId
+      shipId,
+      player
     })
   }
 
