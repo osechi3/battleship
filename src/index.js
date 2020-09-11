@@ -12,7 +12,7 @@ class Game {
 
     View.init(player1, player2)
 
-    /* When the first player places a ship onto the grid */
+    /* When a player places a ship onto the grid */
     PubSub.subscribe('got_ship_from_DOM', (msg, { coordinates, length, shipId, player }) => {
       const x = parseInt(coordinates[0])
       const y = parseInt(coordinates[1])
@@ -21,12 +21,11 @@ class Game {
         .createShipOnGameboard(new Ship(length, x, y, 'horizontal', shipId))
     })
 
-    /* Placing after 'got_ship_from_DOM' event since the function below relies on it */
+    /* Placing the function below after 'got_ship_from_DOM' event since it relies on this event */
     View.placeShipsOnGridRandomly(player2)
 
     /* When the first player removes a ship from the grid */
     PubSub.subscribe('ship_deleted_from_DOM', (msg, shipId) => {
-      // Write it and fix tests
       player1.gameboard.deleteShipFromGameboard(shipId)
     })
 
