@@ -18,6 +18,18 @@ export class View {
       this.resetShipPlacement(player1)
     })
 
+    const buttonPlaceHorizontally =
+      document.getElementById('button-horizontal-placing')
+    buttonPlaceHorizontally.addEventListener('click', () => {
+      if (buttonPlaceHorizontally.textContent === 'Horizontal') {
+        buttonPlaceHorizontally.textContent = 'Vertical'
+      } else {
+        buttonPlaceHorizontally.textContent = 'Horizontal'
+      }
+
+      this.changeDisplayShipsInDOM()
+    })
+
     /* Ships */
     const shipsInput = document.querySelectorAll('.input-position')
     shipsInput.forEach((shipInput, i, arr) => {
@@ -172,6 +184,23 @@ export class View {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
       this.changeTurns(data.player)
     })
+  }
+
+  static changeDisplayShipsInDOM () {
+    const blockShips = document.getElementById('block-ships')
+    const shipElements = document.querySelectorAll('.ship')
+
+    if (blockShips.style.flexDirection === 'row') {
+      blockShips.style.flexDirection = 'column'
+      shipElements.forEach(element => {
+        element.style.flexDirection = 'row'
+      })
+    } else {
+      blockShips.style.flexDirection = 'row'
+      shipElements.forEach(element => {
+        element.style.flexDirection = 'column'
+      })
+    }
   }
 
   static resetShipPlacement (player) {
