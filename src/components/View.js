@@ -241,6 +241,8 @@ export class View {
         oldCoordinates.push(coordinates + (increment * 10))
       }
 
+      /* The counting numbers of the ships placed randomly differs from those
+      placed manually. It might be a source of bugs in the future */
       const shipId = `ship${length}-${i}`
 
       /* Casting to a string to search for in the DOM */
