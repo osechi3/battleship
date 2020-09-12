@@ -18,6 +18,11 @@ body {
   margin-top: 20px;
 }
 
+#block-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Ships block */
 #block-ships {
   display: flex;
@@ -97,7 +102,7 @@ body {
 }
 
 .placed {
-  background-color: lightblue;
+  background-color: lightgreen;
 }
 
 .placed-incorrectly {
