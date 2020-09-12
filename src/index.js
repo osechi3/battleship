@@ -13,12 +13,14 @@ class Game {
     View.init(player1, player2)
 
     /* When a player places a ship onto the grid */
-    PubSub.subscribe('got_ship_from_DOM', (msg, { coordinates, length, shipId, player }) => {
-      const x = parseInt(coordinates[0])
-      const y = parseInt(coordinates[1])
-      player
-        .gameboard
-        .createShipOnGameboard(new Ship(length, x, y, 'horizontal', shipId))
+    PubSub.subscribe('got_ship_from_DOM', (msg, data) => {
+      console.log(data)
+      const x = parseInt(data.coordinates[0])
+      const y = parseInt(data.coordinates[1])
+      data.player.gameboard
+        .createShipOnGameboard(
+          new Ship(data.length, x, y, data.direction, data.shipId)
+        )
     })
 
     /* Placing the function below after 'got_ship_from_DOM' event since it relies on this event */

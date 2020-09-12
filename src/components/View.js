@@ -34,8 +34,14 @@ export class View {
     const shipsInput = document.querySelectorAll('.input-position')
     shipsInput.forEach((shipInput, i, arr) => {
       shipInput.addEventListener('input', () => {
+        const blockShips = document.getElementById('block-ships')
+
         if (!this.checkIfSameAsSiblingElements(shipInput, arr)) {
-          this.changeShipPositionOnGrid(shipInput, player1)
+          this.changeShipPositionOnGrid(
+            shipInput,
+            player1,
+            blockShips.classList
+          )
           shipInput.classList.remove('input-invalid')
         } else {
           shipInput.classList.add('input-invalid')
@@ -192,11 +198,19 @@ export class View {
 
     if (blockShips.style.flexDirection === 'row') {
       blockShips.style.flexDirection = 'column'
+
+      blockShips.classList.remove('vertical')
+      blockShips.classList.add('horizontal')
+
       shipElements.forEach(element => {
         element.style.flexDirection = 'row'
       })
     } else {
       blockShips.style.flexDirection = 'row'
+
+      blockShips.classList.remove('horizontal')
+      blockShips.classList.add('vertical')
+
       shipElements.forEach(element => {
         element.style.flexDirection = 'column'
       })
@@ -220,16 +234,29 @@ export class View {
     player.gameboard.aliveShips = []
   }
 
-  static changeShipPositionOnGrid (shipInput, player) {
+  static changeShipPositionOnGrid (shipInput, player, listPositions) {
     const gridPlayer1 = document.getElementById('grid-player1')
     const shipLength = shipInput.parentElement.parentElement.children.length
     const shipId = shipInput.parentElement.parentElement.id
 
     if (shipInput.value !== '') {
       for (const item of gridPlayer1.children) {
+        /* Checking if there are elements with the input id.
+          Deleting them if it's the case */
         if (shipId === item.id) {
-          this.styleItemsDynamically(item, shipLength, 'created', shipId, 'remove')
-          this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'remove')
+          this.styleItemsDynamicallyHorizontal(
+            item,
+            shipLength,
+            'created',
+            shipId, 'remove'
+          )
+          this.styleItemsDynamicallyHorizontal(
+            item,
+            shipLength,
+            'placed',
+            shipId,
+            'remove'
+          )
 
           PubSub.publish('ship_deleted_from_DOM', shipId)
         }
@@ -237,8 +264,25 @@ export class View {
 
       for (const item of gridPlayer1.children) {
         if (shipInput.value === item.textContent) {
-          this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'add')
-          this.getShipFromDOM(player)
+          if (listPositions.contains('horizontal')) {
+            this.styleItemsDynamicallyHorizontal(
+              item,
+              shipLength,
+              'placed',
+              shipId,
+              'add'
+            )
+            this.getShipFromDOM(player, 'horizontal')
+          } else if (listPositions.contains('vertical')) {
+            this.styleItemsDynamicallyVertical(
+              item,
+              shipLength,
+              'placed',
+              shipId,
+              'add'
+            )
+            this.getShipFromDOM(player, 'vertical')
+          }
         }
       }
     }
@@ -284,7 +328,13 @@ export class View {
       /* Positioning ships on the grid  */
       for (const child of gridPlayer.children) {
         if (child.textContent === coordinates) {
-          this.styleItemsDynamically(child, length, 'placed', shipId, 'add')
+          this.styleItemsDynamicallyHorizontal(
+            child,
+            length,
+            'placed',
+            shipId,
+            'add'
+          )
         }
       }
 
@@ -336,7 +386,13 @@ export class View {
     }
   }
 
-  static styleItemsDynamically (element, amount, className, itemId, addOrRemove) {
+  static styleItemsDynamicallyHorizontal (
+    element,
+    amount,
+    className,
+    itemId,
+    addOrRemove
+  ) {
     if (!element) return
     if (!this.checkIfPositionAllowed(element, itemId)) return
     if (addOrRemove === 'add') {
@@ -348,8 +404,49 @@ export class View {
     }
     if (amount === 1) return
 
-    return this.styleItemsDynamically(
+    return this.styleItemsDynamicallyHorizontal(
       element.nextElementSibling, amount - 1, className, itemId, addOrRemove
+    )
+  }
+
+  static styleItemsDynamicallyVertical (
+    element,
+    amount,
+    className,
+    itemId,
+    addOrRemove
+  ) {
+    if (!element) return
+    if (!this.checkIfPositionAllowed(element, itemId)) return
+
+    if (addOrRemove === 'add') {
+      element.classList.add(className)
+      element.id = itemId
+    } else if (addOrRemove === 'remove') {
+      element.classList.remove(className)
+      element.removeAttribute('id', itemId)
+    }
+
+    let elementBelow
+
+    const elementCoordinatesBelow =
+      element.textContent[0] + ((parseInt(element.textContent[1]) + 1))
+
+    /* Finding the element with the coordinates */
+    for (const child of element.parentElement.children) {
+      if (child.textContent === elementCoordinatesBelow + '') {
+        elementBelow = child
+      }
+    }
+
+    if (amount === 1) return
+
+    return this.styleItemsDynamicallyVertical(
+      elementBelow,
+      amount - 1,
+      className,
+      itemId,
+      addOrRemove
     )
   }
 
@@ -430,7 +527,7 @@ export class View {
     })
   }
 
-  static getShipFromDOM (player) {
+  static getShipFromDOM (player, direction) {
     const ship = []
     let shipId = ''
     const gridPlayer1 = document.getElementById('grid-player1')
@@ -449,7 +546,8 @@ export class View {
       coordinates: ship[0],
       length: ship.length,
       shipId,
-      player
+      player,
+      direction
     })
   }
 
