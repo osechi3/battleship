@@ -32,11 +32,11 @@ export class View {
 
     /* Ships */
     const shipsInput = document.querySelectorAll('.input-position')
-    shipsInput.forEach((shipInput, i, arr) => {
+    shipsInput.forEach(shipInput => {
       shipInput.addEventListener('input', () => {
         const blockShips = document.getElementById('block-ships')
 
-        if (!this.checkIfSameAsSiblingElements(shipInput, arr)) {
+        if (!this.checkIfSameAsSiblingElements(shipInput)) {
           this.changeShipPositionOnGrid(
             shipInput,
             player1,
@@ -450,7 +450,7 @@ export class View {
     )
   }
 
-  static checkIfSameAsSiblingElements (shipInput, arr) {
+  static checkIfSameAsSiblingElements (shipInput) {
     const gridPlayer1 = document.getElementById('grid-player1')
 
     for (const child of gridPlayer1.children) {
