@@ -196,20 +196,20 @@ export class View {
     const shipLength = shipInput.parentElement.parentElement.children.length
     const shipId = shipInput.parentElement.parentElement.id
 
-    if (shipInput.value.length > 1) {
-      for (const item of gridPlayer1.children) {
-        if (shipInput.value === item.textContent) {
-          this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'add')
-          this.getShipFromDOM(player)
-        }
-      }
-    } else {
+    if (shipInput.value !== '') {
       for (const item of gridPlayer1.children) {
         if (shipId === item.id) {
           this.styleItemsDynamically(item, shipLength, 'created', shipId, 'remove')
           this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'remove')
 
           PubSub.publish('ship_deleted_from_DOM', shipId)
+        }
+      }
+
+      for (const item of gridPlayer1.children) {
+        if (shipInput.value === item.textContent) {
+          this.styleItemsDynamically(item, shipLength, 'placed', shipId, 'add')
+          this.getShipFromDOM(player)
         }
       }
     }
