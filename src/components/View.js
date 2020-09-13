@@ -36,13 +36,13 @@ export class View {
       shipInput.addEventListener('input', () => {
         const shipLength =
           shipInput.parentElement.parentElement.id.match(/[0-9]/)[0]
-        const blockShips = document.getElementById('block-ships')
+        const elementClasses = document.getElementById('block-ships').classList
 
         if (!this.checkIfSameAsSiblingElements(shipInput, shipLength)) {
           this.changeShipPositionOnGrid(
             shipInput,
             player1,
-            blockShips.classList
+            elementClasses
           )
           shipInput.classList.remove('input-invalid')
         } else {
