@@ -1,4 +1,5 @@
 import PubSub from 'pubsub-js'
+import { Validation } from './helpers/Validation'
 
 export class View {
   static init (player1, player2) {
@@ -38,7 +39,7 @@ export class View {
           shipInput.parentElement.parentElement.id.match(/[0-9]/)[0]
         const elementClasses = document.getElementById('block-ships').classList
 
-        if (!this.checkIfSameAsSiblingElements(
+        if (!Validation().checkIfSameAsSiblingElements(
           shipInput,
           shipLength,
           elementClasses
@@ -55,7 +56,7 @@ export class View {
       })
 
       PubSub.subscribe('invalid_position', (msg, { element, elementId }) => {
-        this.checkInvalidPositionDynamically(element, elementId)
+        Validation().checkInvalidPositionDynamically(element, elementId)
       })
     })
 
@@ -91,8 +92,8 @@ export class View {
     buttonStartGame.textContent = 'Start Game'
 
     buttonStartGame.addEventListener('click', () => {
-      if (this.checkShipsNotPlacedOnStartGame() === true &&
-          this.checkInvalidPositionOnStartGame() === true) {
+      if (Validation().checkShipsNotPlacedOnStartGame() === true &&
+          Validation().checkInvalidPositionOnStartGame() === true) {
         PubSub.publish('clicked_btn_start_game')
       }
     })
@@ -406,7 +407,7 @@ export class View {
     addOrRemove
   ) {
     if (!element) return
-    if (!this.checkIfPositionAllowed(element, itemId)) return
+    if (!Validation().checkIfPositionAllowed(element, itemId)) return
     if (addOrRemove === 'add') {
       classesArray.forEach(className => {
         element.classList.add(className)
@@ -433,7 +434,7 @@ export class View {
     addOrRemove
   ) {
     if (!element) return
-    if (!this.checkIfPositionAllowed(element, itemId)) return
+    if (!Validation().checkIfPositionAllowed(element, itemId)) return
 
     if (addOrRemove === 'add') {
       classesArray.forEach(className => {
@@ -468,113 +469,6 @@ export class View {
       itemId,
       addOrRemove
     )
-  }
-
-  static checkIfSameAsSiblingElements (shipInput, shipLength, elementClasses) {
-    const direction = elementClasses[0]
-    const gridPlayer1 = document.getElementById('grid-player1')
-    const futureCoordinates =
-      this.getFutureCoordinates(shipInput.value, shipLength, direction)
-
-    console.log(futureCoordinates)
-    console.log(shipInput.value)
-
-    return futureCoordinates.some(coordinate => {
-      for (const child of gridPlayer1.children) {
-        if (coordinate === child.textContent &&
-            child.classList.contains('placed')) {
-          console.log('Nope')
-          return true
-        }
-      }
-    })
-  }
-
-  static getFutureCoordinates (currentCoordinates, shipLength, direction) {
-    const futureCoordinates = []
-
-    if (direction === 'horizontal') {
-      /* Coordinates of the ships placed horizontally */
-      for (let i = 0; i < shipLength; i++) {
-        const nextCoordinates = (parseInt(currentCoordinates[0]) + i) + currentCoordinates[1]
-        futureCoordinates.push(nextCoordinates)
-      }
-    } else if (direction === 'vertical') {
-      /* Coordinates of the ships placed vertically */
-      for (let i = 0; i < shipLength; i++) {
-        const nextCoordinates = currentCoordinates[0] + (parseInt(currentCoordinates[1]) + i)
-        futureCoordinates.push(nextCoordinates)
-      }
-    } else {
-      throw new Error('The direction of future coordinates is not defined')
-    }
-
-    return futureCoordinates
-  }
-
-  static checkIfPositionAllowed (element, itemId) {
-    if (element.textContent === '') {
-      console.log('Not Allowed')
-      element.id = itemId
-      this.alertUserInvalidPosition(element)
-      return false
-    } else {
-      return true
-    }
-  }
-
-  /* When there is invalid input an id is set to the hidden
-  element. When the user fixes the input hidden element is found
-  through thatid. If previous siblings of the element are not
-  there (hence the user changed their position) the input is
-  considered correct -- 'input-invalid' class is removed from the
-  input and the id is removed from the hidden element */
-  static checkInvalidPositionDynamically (element, elementId) {
-    const currentInputField = document.querySelector(`#${elementId} input`)
-    if (element.previousElementSibling.id) {
-      console.log(elementId)
-      currentInputField.classList.add('input-invalid')
-    } else {
-      currentInputField.classList.remove('input-invalid')
-      element.removeAttribute('id', elementId)
-    }
-  }
-
-  static checkShipsNotPlacedOnStartGame () {
-    const shipInputFields = document.querySelectorAll('.input-position')
-    const containerError = document.querySelector('#error-start')
-
-    for (const field of shipInputFields) {
-      if (field.value === '') {
-        containerError.textContent = 'Please place all ships onto the grid.'
-        containerError.classList.remove('hidden')
-        return false
-      }
-    }
-
-    containerError.classList.add('hidden')
-    return true
-  }
-
-  static checkInvalidPositionOnStartGame () {
-    const containerError = document.querySelector('#error-start')
-    const inputsInvalid = document.querySelectorAll('.input-invalid')
-    if (inputsInvalid.length < 1) {
-      containerError.classList.add('hidden')
-      return true
-    } else {
-      containerError.textContent =
-        'You can\'t start the game when there are ships positioned incorrectly'
-      containerError.classList.remove('hidden')
-      return false
-    }
-  }
-
-  static alertUserInvalidPosition (element) {
-    PubSub.publish('invalid_position', {
-      element,
-      elementId: element.id
-    })
   }
 
   static getShipFromDOM (player, direction) {
