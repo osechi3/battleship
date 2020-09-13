@@ -356,7 +356,8 @@ export class View {
         coordinates,
         length,
         shipId,
-        player
+        player,
+        direction: 'horizontal'
       })
     }
     console.log(oldCoordinates)
