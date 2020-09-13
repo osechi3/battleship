@@ -38,7 +38,11 @@ export class View {
           shipInput.parentElement.parentElement.id.match(/[0-9]/)[0]
         const elementClasses = document.getElementById('block-ships').classList
 
-        if (!this.checkIfSameAsSiblingElements(shipInput, shipLength)) {
+        if (!this.checkIfSameAsSiblingElements(
+          shipInput,
+          shipLength,
+          elementClasses
+        )) {
           this.changeShipPositionOnGrid(
             shipInput,
             player1,
@@ -452,10 +456,11 @@ export class View {
     )
   }
 
-  static checkIfSameAsSiblingElements (shipInput, shipLength) {
+  static checkIfSameAsSiblingElements (shipInput, shipLength, elementClasses) {
+    const direction = elementClasses[0]
     const gridPlayer1 = document.getElementById('grid-player1')
     const futureCoordinates =
-      this.getFutureCoordinates(shipInput.value, shipLength)
+      this.getFutureCoordinates(shipInput.value, shipLength, direction)
 
     console.log(futureCoordinates)
     console.log(shipInput.value)
@@ -471,13 +476,23 @@ export class View {
     })
   }
 
-  static getFutureCoordinates (currentCoordinates, shipLength) {
+  static getFutureCoordinates (currentCoordinates, shipLength, direction) {
     const futureCoordinates = []
 
-    /* Coordinates of the ships placed horizontally */
-    for (let i = 0; i < shipLength; i++) {
-      const nextCoordinates = (parseInt(currentCoordinates[0]) + i) + currentCoordinates[1]
-      futureCoordinates.push(nextCoordinates)
+    if (direction === 'horizontal') {
+      /* Coordinates of the ships placed horizontally */
+      for (let i = 0; i < shipLength; i++) {
+        const nextCoordinates = (parseInt(currentCoordinates[0]) + i) + currentCoordinates[1]
+        futureCoordinates.push(nextCoordinates)
+      }
+    } else if (direction === 'vertical') {
+      /* Coordinates of the ships placed vertically */
+      for (let i = 0; i < shipLength; i++) {
+        const nextCoordinates = currentCoordinates[0] + (parseInt(currentCoordinates[1]) + i)
+        futureCoordinates.push(nextCoordinates)
+      }
+    } else {
+      throw new Error('The direction of future coordinates is not defined')
     }
 
     return futureCoordinates
