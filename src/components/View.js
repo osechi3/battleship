@@ -245,17 +245,20 @@ export class View {
     const shipLength = shipInput.parentElement.parentElement.children.length
     const shipId = shipInput.parentElement.parentElement.id
 
-    if (shipInput.value !== '') {
-      for (const item of gridPlayer1.children) {
-        /* Checking if there are elements with the input id.
-          Deleting them if it's the case */
-        if (shipId === item.id) {
+    for (const item of gridPlayer1.children) {
+      /* Checking if there are elements with the input id.
+        Deleting them if it's the case */
+      if (shipId === item.id) {
+        console.log(listPositions.contains('horizontal'))
+        if (listPositions.contains('horizontal')) {
           this.styleItemsDynamicallyHorizontal(
             item,
             shipLength,
             'created',
-            shipId, 'remove'
+            shipId,
+            'remove'
           )
+
           this.styleItemsDynamicallyHorizontal(
             item,
             shipLength,
@@ -263,11 +266,30 @@ export class View {
             shipId,
             'remove'
           )
+        } else if (listPositions.contains('vertical')) {
+          this.styleItemsDynamicallyVertical(
+            item,
+            shipLength,
+            'created',
+            shipId,
+            'remove'
+          )
 
-          PubSub.publish('ship_deleted_from_DOM', shipId)
+          this.styleItemsDynamicallyVertical(
+            item,
+            shipLength,
+            'placed',
+            shipId,
+            'remove'
+          )
         }
-      }
 
+        PubSub.publish('ship_deleted_from_DOM', shipId)
+      }
+    }
+
+    if (shipInput.value !== '') {
+      /* Placing ships on the grid */
       for (const item of gridPlayer1.children) {
         if (shipInput.value === item.textContent) {
           if (listPositions.contains('horizontal')) {
