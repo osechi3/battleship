@@ -254,15 +254,7 @@ export class View {
           this.styleItemsDynamicallyHorizontal(
             item,
             shipLength,
-            'created',
-            shipId,
-            'remove'
-          )
-
-          this.styleItemsDynamicallyHorizontal(
-            item,
-            shipLength,
-            'placed',
+            ['created', 'placed'],
             shipId,
             'remove'
           )
@@ -270,15 +262,7 @@ export class View {
           this.styleItemsDynamicallyVertical(
             item,
             shipLength,
-            'created',
-            shipId,
-            'remove'
-          )
-
-          this.styleItemsDynamicallyVertical(
-            item,
-            shipLength,
-            'placed',
+            ['created', 'placed'],
             shipId,
             'remove'
           )
@@ -296,7 +280,7 @@ export class View {
             this.styleItemsDynamicallyHorizontal(
               item,
               shipLength,
-              'placed',
+              ['placed'],
               shipId,
               'add'
             )
@@ -305,7 +289,7 @@ export class View {
             this.styleItemsDynamicallyVertical(
               item,
               shipLength,
-              'placed',
+              ['placed'],
               shipId,
               'add'
             )
@@ -359,7 +343,7 @@ export class View {
           this.styleItemsDynamicallyHorizontal(
             child,
             length,
-            'placed',
+            ['placed'],
             shipId,
             'add'
           )
@@ -417,30 +401,34 @@ export class View {
   static styleItemsDynamicallyHorizontal (
     element,
     amount,
-    className,
+    classesArray,
     itemId,
     addOrRemove
   ) {
     if (!element) return
     if (!this.checkIfPositionAllowed(element, itemId)) return
     if (addOrRemove === 'add') {
-      element.classList.add(className)
+      classesArray.forEach(className => {
+        element.classList.add(className)
+      })
       element.id = itemId
     } else if (addOrRemove === 'remove') {
-      element.classList.remove(className)
+      classesArray.forEach(className => {
+        element.classList.remove(className)
+      })
       element.removeAttribute('id', itemId)
     }
     if (amount === 1) return
 
     return this.styleItemsDynamicallyHorizontal(
-      element.nextElementSibling, amount - 1, className, itemId, addOrRemove
+      element.nextElementSibling, amount - 1, classesArray, itemId, addOrRemove
     )
   }
 
   static styleItemsDynamicallyVertical (
     element,
     amount,
-    className,
+    classesArray,
     itemId,
     addOrRemove
   ) {
@@ -448,10 +436,14 @@ export class View {
     if (!this.checkIfPositionAllowed(element, itemId)) return
 
     if (addOrRemove === 'add') {
-      element.classList.add(className)
+      classesArray.forEach(className => {
+        element.classList.add(className)
+      })
       element.id = itemId
     } else if (addOrRemove === 'remove') {
-      element.classList.remove(className)
+      classesArray.forEach(className => {
+        element.classList.remove(className)
+      })
       element.removeAttribute('id', itemId)
     }
 
@@ -472,7 +464,7 @@ export class View {
     return this.styleItemsDynamicallyVertical(
       elementBelow,
       amount - 1,
-      className,
+      classesArray,
       itemId,
       addOrRemove
     )
