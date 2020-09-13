@@ -34,9 +34,11 @@ export class View {
     const shipsInput = document.querySelectorAll('.input-position')
     shipsInput.forEach(shipInput => {
       shipInput.addEventListener('input', () => {
+        const shipLength =
+          shipInput.parentElement.parentElement.id.match(/[0-9]/)[0]
         const blockShips = document.getElementById('block-ships')
 
-        if (!this.checkIfSameAsSiblingElements(shipInput)) {
+        if (!this.checkIfSameAsSiblingElements(shipInput, shipLength)) {
           this.changeShipPositionOnGrid(
             shipInput,
             player1,
@@ -450,16 +452,35 @@ export class View {
     )
   }
 
-  static checkIfSameAsSiblingElements (shipInput) {
+  static checkIfSameAsSiblingElements (shipInput, shipLength) {
     const gridPlayer1 = document.getElementById('grid-player1')
+    const futureCoordinates =
+      this.getFutureCoordinates(shipInput.value, shipLength)
 
-    for (const child of gridPlayer1.children) {
-      if (shipInput.value === child.textContent &&
-          child.classList.contains('placed')) {
-        console.log('Nope')
-        return true
+    console.log(futureCoordinates)
+    console.log(shipInput.value)
+
+    return futureCoordinates.some(coordinate => {
+      for (const child of gridPlayer1.children) {
+        if (coordinate === child.textContent &&
+            child.classList.contains('placed')) {
+          console.log('Nope')
+          return true
+        }
       }
+    })
+  }
+
+  static getFutureCoordinates (currentCoordinates, shipLength) {
+    const futureCoordinates = []
+
+    /* Coordinates of the ships placed horizontally */
+    for (let i = 0; i < shipLength; i++) {
+      const nextCoordinates = (parseInt(currentCoordinates[0]) + i) + currentCoordinates[1]
+      futureCoordinates.push(nextCoordinates)
     }
+
+    return futureCoordinates
   }
 
   static checkIfPositionAllowed (element, itemId) {
