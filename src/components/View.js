@@ -315,7 +315,7 @@ export class View {
       document.getElementById(`grid-${player.gameboard.player}`)
     const oldCoordinates = []
 
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 10; i >= 1; i--) {
       let coordinates = 0
       let length = 0
 
@@ -329,11 +329,22 @@ export class View {
         length = 4
       }
 
+      /* Deciding whether the ship will be placed horizontally or vertically */
+      const numRandom = Math.floor(Math.random() * 3)
+      const verticalOrHorizontal = numRandom > 1 ? 'horizontal' : 'vertical'
+      console.log(verticalOrHorizontal)
+
       coordinates = this.getRandomNumber(length, oldCoordinates)
 
       /* Adding new coordinates into an array of used coordinates */
       for (let increment = 0; increment < length; increment++) {
-        oldCoordinates.push(coordinates + (increment * 10))
+        if (verticalOrHorizontal === 'horizontal') {
+          oldCoordinates.push(coordinates + (increment * 10))
+        } else if (verticalOrHorizontal === 'vertical') {
+          oldCoordinates.push(coordinates + increment)
+        } else {
+          throw new Error('The direction of the ship is undefined')
+        }
       }
 
       /* The counting numbers of the ships placed randomly differs from those
@@ -350,13 +361,23 @@ export class View {
       /* Positioning ships on the grid  */
       for (const child of gridPlayer.children) {
         if (child.textContent === coordinates) {
-          this.styleItemsDynamicallyHorizontal(
-            child,
-            length,
-            ['placed'],
-            shipId,
-            'add'
-          )
+          if (verticalOrHorizontal === 'horizontal') {
+            this.styleItemsDynamicallyHorizontal(
+              child,
+              length,
+              ['placed'],
+              shipId,
+              'add'
+            )
+          } else {
+            this.styleItemsDynamicallyVertical(
+              child,
+              length,
+              ['placed'],
+              shipId,
+              'add'
+            )
+          }
         }
       }
 
@@ -366,7 +387,7 @@ export class View {
         length,
         shipId,
         player,
-        direction: 'horizontal'
+        direction: verticalOrHorizontal
       })
     }
     console.log(oldCoordinates)
@@ -385,7 +406,8 @@ export class View {
     and also checking for future values */
     let isOccupied
     for (let i = 1; i <= length; i++) {
-      if (oldCoordinates.includes(numberRandom + (i * 10 - 10))) {
+      if (oldCoordinates.includes(numberRandom + (i * 10 - 10)) ||
+          oldCoordinates.includes(numberRandom + (i - 1))) {
         isOccupied = true
         numberRandom = this.getRandomNumber(length, oldCoordinates, iteration)
         break
@@ -393,9 +415,11 @@ export class View {
         isOccupied = false
       }
     }
-
     /* Checking if the value can NOT be placed onto the grid */
-    if (numberRandom + (length * 10 - 10) >= 100 && length !== 1) {
+    if (parseInt((numberRandom + '')[1]) + length - 1 >= 10 || // vertically
+        (numberRandom < 10 && numberRandom + length - 1 >= 10) || // vertically
+        (numberRandom + (length * 10 - 10) >= 100 && length !== 1)) { // horizontally
+      console.log(oldCoordinates)
       console.log('Too big of a number: ' + numberRandom)
       numberRandom = this.getRandomNumber(length, oldCoordinates, iteration)
       console.log('New number: ' + numberRandom)
