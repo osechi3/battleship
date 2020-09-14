@@ -10,6 +10,15 @@ export function Validation () {
     console.log(futureCoordinates)
     console.log(shipInput.value)
 
+    const isIncorrectPosition = futureCoordinates.some(coordinate => {
+      console.log(coordinate.length)
+      return coordinate.length > 2
+    })
+
+    if (isIncorrectPosition) {
+      return true
+    }
+
     return futureCoordinates.some(coordinate => {
       for (const child of gridPlayer1.children) {
         if (coordinate === child.textContent &&
