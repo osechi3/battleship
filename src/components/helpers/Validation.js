@@ -32,21 +32,19 @@ export function Validation () {
 
   function getFutureCoordinates (currentCoordinates, shipLength, direction) {
     const futureCoordinates = []
+    let nextCoordinates
 
-    if (direction === 'horizontal') {
-      /* Coordinates of the ships placed horizontally */
-      for (let i = 0; i < shipLength; i++) {
-        const nextCoordinates = (parseInt(currentCoordinates[0]) + i) + currentCoordinates[1]
-        futureCoordinates.push(nextCoordinates)
+    for (let i = 0; i < shipLength; i++) {
+      if (direction === 'horizontal') {
+        nextCoordinates =
+          (parseInt(currentCoordinates[0]) + i) + currentCoordinates[1]
+      } else if (direction === 'vertical') {
+        nextCoordinates =
+          currentCoordinates[0] + (parseInt(currentCoordinates[1]) + i)
+      } else {
+        throw new Error('The direction of future coordinates is not defined')
       }
-    } else if (direction === 'vertical') {
-      /* Coordinates of the ships placed vertically */
-      for (let i = 0; i < shipLength; i++) {
-        const nextCoordinates = currentCoordinates[0] + (parseInt(currentCoordinates[1]) + i)
-        futureCoordinates.push(nextCoordinates)
-      }
-    } else {
-      throw new Error('The direction of future coordinates is not defined')
+      futureCoordinates.push(nextCoordinates)
     }
 
     return futureCoordinates
