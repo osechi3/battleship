@@ -37,7 +37,6 @@ export class View {
       shipInput.addEventListener('input', () => {
         const shipLength =
           shipInput.parentElement.parentElement.id.match(/[0-9]/)[0]
-        const shipId = shipInput.parentElement.parentElement.id
         const elementClasses = document.getElementById('block-ships').classList
 
         if (!Validation().checkIfSameAsSiblingElements(
@@ -54,14 +53,6 @@ export class View {
         } else {
           shipInput.classList.add('input-invalid')
         }
-
-        PubSub.subscribe('invalid_position', (msg, element) => {
-          Validation().checkInvalidPositionDynamically(
-            element,
-            shipId,
-            elementClasses[0]
-          )
-        })
       })
     })
 
@@ -411,7 +402,6 @@ export class View {
     addOrRemove,
     direction
   ) {
-    if (!Validation().checkIfPositionAllowed(element, itemId)) return
     if (!element) return
 
     if (addOrRemove === 'add') {
