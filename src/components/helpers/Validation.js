@@ -106,7 +106,7 @@ export function Validation () {
     const containerError = document.querySelector('#error-start')
 
     for (const field of shipInputFields) {
-      if (field.value === '') {
+      if (field.value.length < 2) {
         containerError.textContent = 'Please place all ships onto the grid.'
         containerError.classList.remove('hidden')
         return false
