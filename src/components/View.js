@@ -39,7 +39,7 @@ export class View {
           shipInput.parentElement.parentElement.id.match(/[0-9]/)[0]
         const elementClasses = document.getElementById('block-ships').classList
 
-        if (!Validation().checkIfSameAsSiblingElements(
+        if (!Validation().isPlacedIncorrectly(
           shipInput,
           shipLength,
           elementClasses

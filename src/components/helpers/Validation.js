@@ -1,5 +1,5 @@
 export function Validation () {
-  function checkIfSameAsSiblingElements (shipInput, shipLength, elementClasses) {
+  function isPlacedIncorrectly (shipInput, shipLength, elementClasses) {
     const direction = elementClasses[0]
     const gridPlayer1 = document.getElementById('grid-player1')
     const futureCoordinates =
@@ -8,6 +8,7 @@ export function Validation () {
     console.log(futureCoordinates)
     console.log(shipInput.value)
 
+    /* Checking if a part of the ship is outside of the grid */
     const isIncorrectPosition = futureCoordinates.some(coordinate => {
       console.log(coordinate.length)
       return coordinate.length > 2
@@ -17,6 +18,7 @@ export function Validation () {
       return true
     }
 
+    /* Checking if the ship is placed onto another ship */
     return futureCoordinates.some(coordinate => {
       for (const child of gridPlayer1.children) {
         if (coordinate === child.textContent &&
@@ -79,7 +81,7 @@ export function Validation () {
   }
 
   return {
-    checkIfSameAsSiblingElements,
+    isPlacedIncorrectly,
     checkShipsNotPlacedOnStartGame,
     checkInvalidPositionOnStartGame
   }
