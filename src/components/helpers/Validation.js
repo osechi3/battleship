@@ -44,6 +44,13 @@ export function Validation () {
   }
 
   function checkIfPositionAllowed (element, itemId) {
+    /* When placing vertically */
+    if (element === undefined) {
+      alertUserInvalidPosition(element)
+      return false
+    }
+
+    /* When placing horizontally */
     if (element.textContent === '') {
       console.log('Not Allowed')
       element.id = itemId
@@ -55,10 +62,7 @@ export function Validation () {
   }
 
   function alertUserInvalidPosition (element) {
-    PubSub.publish('invalid_position', {
-      element,
-      elementId: element.id
-    })
+    PubSub.publish('invalid_position', element)
   }
 
   /* When there is invalid input an id is set to a hidden
@@ -67,14 +71,24 @@ export function Validation () {
   there (hence the user changed their position) the input is
   considered correct -- 'input-invalid' class is removed from the
   input and the id is removed from the hidden element */
-  function checkInvalidPositionDynamically (element, elementId) {
+  function checkInvalidPositionDynamically (element, elementId, direction) {
     const currentInputField = document.querySelector(`#${elementId} input`)
-    if (element.previousElementSibling.id) {
-      console.log(elementId)
-      currentInputField.classList.add('input-invalid')
+    if (direction === 'horizontal') {
+      if (element.previousElementSibling.id) {
+        console.log(elementId)
+        currentInputField.classList.add('input-invalid')
+      } else {
+        currentInputField.classList.remove('input-invalid')
+        element.removeAttribute('id', elementId)
+      }
+    } else if (direction === 'vertical') {
+      if (!element) {
+        currentInputField.classList.add('input-invalid')
+      } else {
+        currentInputField.classList.remove('input-invalid')
+      }
     } else {
-      currentInputField.classList.remove('input-invalid')
-      element.removeAttribute('id', elementId)
+      throw new Error('The direction is undefined')
     }
   }
 

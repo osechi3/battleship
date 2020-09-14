@@ -37,6 +37,7 @@ export class View {
       shipInput.addEventListener('input', () => {
         const shipLength =
           shipInput.parentElement.parentElement.id.match(/[0-9]/)[0]
+        const shipId = shipInput.parentElement.parentElement.id
         const elementClasses = document.getElementById('block-ships').classList
 
         if (!Validation().checkIfSameAsSiblingElements(
@@ -53,10 +54,14 @@ export class View {
         } else {
           shipInput.classList.add('input-invalid')
         }
-      })
 
-      PubSub.subscribe('invalid_position', (msg, { element, elementId }) => {
-        Validation().checkInvalidPositionDynamically(element, elementId)
+        PubSub.subscribe('invalid_position', (msg, element) => {
+          Validation().checkInvalidPositionDynamically(
+            element,
+            shipId,
+            elementClasses[0]
+          )
+        })
       })
     })
 
@@ -138,9 +143,11 @@ export class View {
       const gridItem =
         this.createElement('div', 'grid-item', null, gridPlayer1)
 
-      // Adding a hidden element to the end of the grid
-      if (item === 99) {
-        this.createElement('div', 'hidden-item', null, gridPlayer1)
+      // Adding hidden elements to the end of the grid to check against
+      if (item >= 99) {
+        for (let i = 0; i < 10; i++) {
+          this.createElement('div', 'hidden-item', null, gridPlayer1)
+        }
       }
 
       /* Adjusting numbers in divs and casting numbers to strings */
@@ -162,9 +169,11 @@ export class View {
       const gridItem =
         this.createElement('div', 'grid-item', null, gridPlayer2)
 
-      // Adding a hidden element to the end of the grid
-      if (item === 99) {
-        this.createElement('div', 'hidden-item', null, gridPlayer2)
+      // Adding hidden elements to the end of the grid to check against
+      if (item >= 99) {
+        for (let i = 0; i < 10; i++) {
+          this.createElement('div', 'hidden-item', null, gridPlayer1)
+        }
       }
 
       /* Adjusting numbers in divs and casting numbers to strings */
@@ -434,8 +443,8 @@ export class View {
     itemId,
     addOrRemove
   ) {
-    if (!element) return
     if (!Validation().checkIfPositionAllowed(element, itemId)) return
+    if (!element) return
 
     if (addOrRemove === 'add') {
       classesArray.forEach(className => {
@@ -517,7 +526,7 @@ export class View {
     const isMissed = missedHits.some(hit => coordinates === hit)
     console.log(isMissed)
 
-    for (let item = 0; item < 100; item++) {
+    for (let item = 0; item < 110; item++) {
       if (gridPlayer.childNodes[item].textContent === coordinates) {
         if (isMissed) {
           gridPlayer.childNodes[item].style.backgroundColor = 'lightblue'
