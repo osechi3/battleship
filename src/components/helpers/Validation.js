@@ -15,7 +15,7 @@ export function Validation () {
       return coordinate.length > 2
     })
 
-    if (isIncorrectPosition) {
+    if (isIncorrectPosition && shipInput.value.length > 1) {
       return true
     }
 
