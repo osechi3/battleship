@@ -7,7 +7,7 @@ export class Gameboard {
     this.missedHitsCoordinates = []
     this.player = player
 
-    PubSub.subscribe('the_ship_is_sunk', () => {
+    PubSub.subscribe('ship_is_sunk', () => {
       /* Removing the sunk ship from aliveShips array and checking for
       whether there are any ships on player's gameboard */
       const index = this.aliveShips.findIndex(ship => {

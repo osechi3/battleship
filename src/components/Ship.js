@@ -24,7 +24,7 @@ export class Ship {
     if (this.body.every(position => position === 'x')) {
       this.isSunk = true
 
-      PubSub.publishSync('the_ship_is_sunk') // SYNC!
+      PubSub.publishSync('ship_is_sunk') // SYNC!
     } else {
       this.isSunk = false
     }

@@ -7,7 +7,7 @@ export class Player {
     this.versusAi = versusAi
     this.isAi = isAi
     this.aiSuccessfulHits = []
-    /* 'the_ship_is_sunk' event fires earlier that 'ai_successful_hit',
+    /* 'ship_is_sunk' event fires earlier that 'ai_successful_hit',
       which is not desired */
     this.isSunk = false
 
@@ -22,7 +22,7 @@ export class Player {
       this.isSunk = false
     })
 
-    PubSub.subscribe('the_ship_is_sunk', () => {
+    PubSub.subscribe('ship_is_sunk', () => {
       this.isSunk = true
     })
   }
