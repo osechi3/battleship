@@ -13,20 +13,21 @@ export class Player {
     const wasHit = this.previousCoordinates.some(prevCoordinates =>
       prevCoordinates === coordinates)
 
-    if (wasHit) {
+    /* If the player clicks on the same spot multiple times */
+    if (wasHit && this.isAi) {
       console.log('You can\'t hit the same spot twice.')
-
-      if (!this.isAi && this.versusAi) {
-        this.makeTurnAi()
-      }
+    /* If AI clicks on the same spot multiple times */
+    } else if (wasHit && !this.isAi) {
+      console.log('You can\'t hit the same spot twice.')
+      this.makeTurnAi()
     } else {
       this.gameboard.receiveAttack(coordinates, player)
       this.previousCoordinates.push(coordinates)
-    }
 
-    /* AI player makes a turn */
-    if (this.isAi && this.versusAi) {
-      this.makeTurnAi()
+      /* AI player makes a turn */
+      if (this.isAi && this.versusAi) {
+        this.makeTurnAi()
+      }
     }
   }
 
