@@ -192,10 +192,10 @@ export class View {
       })
     })
 
-    /* Update grids and change turns after a player has made their turn */
+    /* Update grids after a player has made their turn */
     PubSub.subscribe('attack_is_executed', (msg, data) => {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
-      this.changeTurns(data.player)
+      // this.changeTurns(data.player)
     })
   }
 
@@ -507,19 +507,6 @@ export class View {
     }
   }
 
-  static changeTurns (player) {
-    const coverPlayer1 = document.getElementById('cover-player1')
-    const coverPlayer2 = document.getElementById('cover-player2')
-
-    if (player === 'player2') {
-      coverPlayer1.style.display = 'none'
-      coverPlayer2.style.display = 'initial'
-    } else if (player === 'player1') {
-      coverPlayer1.style.display = 'initial'
-      coverPlayer2.style.display = 'none'
-    }
-  }
-
   static createElement (tag, className, elementId, appendTo) {
     const element = document.createElement(tag)
     if (className) element.className = className
@@ -533,6 +520,19 @@ export class View {
 
     for (const field of inputFields) {
       field.value = ''
+    }
+  }
+
+  static changeTurns (player) {
+    const coverPlayer1 = document.getElementById('cover-player1')
+    const coverPlayer2 = document.getElementById('cover-player2')
+
+    if (player === 'player2') {
+      coverPlayer1.style.display = 'none'
+      coverPlayer2.style.display = 'initial'
+    } else if (player === 'player1') {
+      coverPlayer1.style.display = 'initial'
+      coverPlayer2.style.display = 'none'
     }
   }
 }
