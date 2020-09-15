@@ -6,6 +6,25 @@ export class Player {
     this.previousCoordinates = []
     this.versusAi = versusAi
     this.isAi = isAi
+    this.aiSuccessfulHits = []
+    /* 'the_ship_is_sunk' event fires earlier that 'ai_successful_hit',
+      which is not desired */
+    this.isSunk = false
+
+    PubSub.subscribe('ai_successful_hit', (msg, coordinates) => {
+      this.aiSuccessfulHits.push(coordinates)
+      console.log(this.aiSuccessfulHits)
+
+      if (this.isSunk) {
+        this.aiSuccessfulHits = []
+        console.log(this.aiSuccessfulHits)
+      }
+      this.isSunk = false
+    })
+
+    PubSub.subscribe('the_ship_is_sunk', () => {
+      this.isSunk = true
+    })
   }
 
   receiveDamage (coordinates, player) {
@@ -32,8 +51,35 @@ export class Player {
   }
 
   makeTurnAi () {
-    const coordinates =
+    let coordinates =
         '' + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10)
+
+    const numRandom1 = Math.floor(Math.random() * 3)
+    const numRandom2 = Math.floor(Math.random() * 3)
+    const numRandom3 = Math.floor(Math.random() * this.aiSuccessfulHits.length)
+    const oneOrTen = numRandom1 > 1 ? 10 : 1
+
+    /* Having AI try adjacent coordinates */
+    if (this.aiSuccessfulHits.length >= 1) {
+      if (numRandom2 > 1) {
+        coordinates = parseInt(this.aiSuccessfulHits[numRandom3]) + oneOrTen + ''
+      } else {
+        coordinates = parseInt(this.aiSuccessfulHits[numRandom3]) - oneOrTen + ''
+      }
+    }
+
+    /* Checking if AI makes a turn outside of the grid */
+    if (parseInt(coordinates) < 0) {
+      coordinates =
+        '' + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10)
+    }
+
+    // Add 0 to coordinates when there is one-digit number
+    if (coordinates.length < 2) {
+      coordinates = 0 + coordinates
+      console.log(coordinates)
+    }
+
     PubSub.publish('make_turn_ai', coordinates)
   }
 }

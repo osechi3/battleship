@@ -54,6 +54,9 @@ export class Gameboard {
       this.aliveShips.forEach(ship => {
         ship.hit(coordinates)
       })
+      if (this.player === 'player1') {
+        PubSub.publish('ai_successful_hit', coordinates)
+      }
     } else {
       this.missedHitsCoordinates.push(coordinates)
     }
