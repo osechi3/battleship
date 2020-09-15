@@ -274,7 +274,8 @@ export class View {
             'add',
             shipClasses[0]
           )
-          this.getShipFromDOM(player, 'horizontal')
+          console.log(shipClasses[0])
+          this.getShipFromDOM(player, shipClasses[0])
         }
       }
     }
