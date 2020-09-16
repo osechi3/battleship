@@ -57,7 +57,7 @@ export class View {
     })
 
     /* Grid */
-    this.initGrid(blockMain)
+    this.initGrid()
 
     /* Div that doesn't let a player make a turn before
     the other player do so */
@@ -135,12 +135,10 @@ export class View {
     this.resetInputFieldsPosition()
   }
 
-  static initGrid (rootElement) {
-    const blockGridPlayer1 =
-      this.createElement('div', 'block-grid', 'block-grid1', rootElement)
+  static initGrid () {
+    const blockGridPlayer1 = document.getElementById('block-grid1')
 
-    const blockGridPlayer2 =
-      this.createElement('div', 'block-grid', 'block-grid2', rootElement)
+    const blockGridPlayer2 = document.getElementById('block-grid2')
 
     /* Players' names */
     const namePlayer1 =
