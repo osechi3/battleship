@@ -3,8 +3,6 @@ import { Validation } from './helpers/Validation'
 
 export class View {
   static init (player1, player2) {
-    const blockMain = document.getElementById('block-main')
-
     /* Placement buttons */
     const buttonRandom = document.getElementById('button-random')
     buttonRandom.addEventListener('click', () => {
@@ -78,14 +76,7 @@ export class View {
     })
 
     /* A button that starts the game */
-    const blockGrid2 = document.getElementById('block-grid2')
-    const blockStartGame = this.createElement('div', null, 'block-start-game')
-    blockMain.insertBefore(blockStartGame, blockGrid2)
-
-    const buttonStartGame =
-      this.createElement('button', 'btn', 'btn-start-game', blockStartGame)
-    buttonStartGame.type = 'button'
-    buttonStartGame.textContent = 'Start Game'
+    const buttonStartGame = document.getElementById('btn-start-game')
 
     buttonStartGame.addEventListener('click', () => {
       if (Validation().checkShipsNotPlacedOnStartGame() === true &&
@@ -94,33 +85,12 @@ export class View {
       }
     })
 
-    /* A container for error messages pertaining the start of the game */
-    this.createElement('div', 'error hidden', 'error-start', blockStartGame)
-
     /* A container for displaying the score of the game */
-    const containerScore =
-      this.createElement('div', null, 'container-score', blockStartGame)
-
-    const containerScoreTitle =
-      this.createElement('div', null, 'score-title', containerScore)
-    containerScoreTitle.textContent = 'Ships left'
-
-    const containerScoreBody =
-      this.createElement('div', null, 'score-body', containerScore)
-
-    const scoreTextPlayer1 =
-      this.createElement(
-        'div', 'score-text', 'score-text-player1', containerScoreBody
-      )
-    const scoreTextPlayer2 =
-      this.createElement(
-        'div', 'score-text', 'score-text-player2', containerScoreBody
-      )
-
-    scoreTextPlayer1.textContent = '10' + ':'
-    scoreTextPlayer2.textContent = '10'
-
+    const containerScore = document.getElementById('container-score')
     containerScore.style.display = 'none'
+
+    const scoreTextPlayer1 = document.getElementById('score-text-player1')
+    const scoreTextPlayer2 = document.getElementById('score-text-player2')
 
     // Populating score container every time a ship gets sunk
     PubSub.subscribe('ships_are_alive', (msg, { amount, player }) => {
