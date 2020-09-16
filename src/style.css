@@ -18,11 +18,6 @@ body {
   margin-top: 20px;
 }
 
-#block-buttons {
-  display: flex;
-  flex-direction: column;
-}
-
 /* Ships block */
 #block-ships {
   display: flex;
@@ -125,15 +120,57 @@ body {
   opacity: .3;
 }
 
+/* Center block */
+#block-center {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+
+  width: 250px;
+  height: 250px;
+  margin: 0 60px;
+  padding: 15px 0;
+
+  background-color: #555B6E;
+  border: 1px transparent;
+  border-radius: 10px;
+}
+
+/* Buttons block */
+#block-buttons {
+  display: flex;
+  flex-direction: column;
+}
+.btn {
+  width: 150px;
+  height: 30px;
+  margin: 2px 0;
+
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+
+  background-color: #89B0AE;
+  border: 1px transparent;
+  border-radius: 3px;
+}
+.btn:hover {
+  background-color: #BEE3DB;
+}
+#button-horizontal-placing {
+  margin-bottom: 20px;
+}
+
 /* Start Game block */
 #block-start-game {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  margin-top: 25px;
 }
 #btn-start-game {
   height: 30px;
-  margin: 0 60px
 }
 .error {
   margin: 8px;
@@ -141,8 +178,11 @@ body {
   width: 200px;
 
   text-align: center;
+  font-size: 17px;
 
-  background-color: gainsboro;
+  background-color: #FAF9F9;
+  border: 1px transparent;
+  border-radius: 5px;
 }
 #container-score {
   display: flex;

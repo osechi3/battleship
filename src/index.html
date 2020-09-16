@@ -10,11 +10,6 @@
     <div id="app">
       <h1 id="header">BattleShip</h1>
       <div id="block-main">
-        <div id="block-buttons">
-          <button id="button-random" type="button">Random Placement</button>
-          <button id="button-reset-placement" type="button">Reset Placement</button>
-          <button id="button-horizontal-placing" type="button">Horizontal</button>
-        </div>
         <div class="horizontal" id="block-ships">
           <div class="ship" id="ship4-1">
             <div class="ship-part">
@@ -80,14 +75,21 @@
           </div>
         </div>
         <div class="block-grid" id="block-grid1"></div>
-        <div id="block-start-game">
-          <button class="btn" id="btn-start-game" type="button">Start Game</button>
-          <div class="error hidden" id="error-start"></div>
-          <div id="container-score">
-            <div id="score-title">Ships left</div>
-            <div id="score-body">
-              <div class="score-text" id="score-text-player1">10:</div>
-              <div class="score-text" id="score-text-player2">10</div>
+        <div id="block-center">
+          <div id="block-buttons">
+            <button class="btn" id="button-horizontal-placing" type="button">Horizontal</button>
+            <button class="btn" id="button-random" type="button">Random</button>
+            <button class="btn" id="button-reset-placement" type="button">Reset</button>
+          </div>
+          <div id="block-start-game">
+            <div class="error hidden" id="error-start"></div>
+            <button class="btn" id="btn-start-game" type="button">Start Game</button>
+            <div id="container-score">
+              <div id="score-title">Ships left</div>
+              <div id="score-body">
+                <div class="score-text" id="score-text-player1">10:</div>
+                <div class="score-text" id="score-text-player2">10</div>
+              </div>
             </div>
           </div>
         </div>
