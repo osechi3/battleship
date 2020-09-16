@@ -109,6 +109,10 @@ export class View {
       }
     })
 
+    /* Endgame message */
+    const messageEndgame = document.getElementById('message-endgame')
+    messageEndgame.style.display = 'none'
+
     /* Resetting input fields */
     this.resetInputFieldsPosition()
   }
