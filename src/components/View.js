@@ -198,6 +198,12 @@ export class View {
       })
     })
 
+    // Hiding the error message when starting the game
+    PubSub.subscribe('clicked_btn_start_game', () => {
+      const errorStart = document.getElementById('error-start')
+      errorStart.classList.add('hidden')
+    })
+
     /* Update grids after a player has made their turn */
     PubSub.subscribe('attack_is_executed', (msg, data) => {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
