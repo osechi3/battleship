@@ -157,6 +157,10 @@ export class View {
     const gridPlayer2 =
       this.createElement('div', 'grid', 'grid-player2', blockGridPlayer2)
 
+    // Hiding AI grid and the name before starting the game
+    gridPlayer2.style.display = 'none'
+    namePlayer2.style.display = 'none'
+
     /* Grid items of the first player */
     for (let item = 0; item < 100; item++) {
       /* Adding a hidden element to check for
@@ -563,6 +567,8 @@ export class View {
     const blockShips = document.getElementById('block-ships')
     const buttonStart = document.getElementById('btn-start-game')
     const containerScore = document.getElementById('container-score')
+    const gridPlayer2 = document.getElementById('grid-player2')
+    const namePlayer2 = document.getElementById('block-name2')
 
     // Hiding
     blockButtons.style.display = 'none'
@@ -571,6 +577,8 @@ export class View {
 
     // Showing
     containerScore.style.cssText = ''
+    gridPlayer2.style.cssText = ''
+    namePlayer2.style.cssText = ''
   }
 
   static changeTurns (player) {
