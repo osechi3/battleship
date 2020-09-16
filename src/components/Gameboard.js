@@ -75,6 +75,11 @@ export class Gameboard {
       console.log('There are no ships left')
       PubSub.publish('no_alive_ships', this.player)
     }
+
+    PubSub.publish('ships_are_alive', {
+      amount: this.aliveShips.length,
+      player: this.player
+    })
   }
 
   initShips () {
