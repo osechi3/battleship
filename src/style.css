@@ -150,6 +150,7 @@ body {
 #block-buttons {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 .btn {
   width: 150px;
@@ -169,6 +170,9 @@ body {
 }
 #button-horizontal-placing {
   margin-bottom: 20px;
+}
+#button-random {
+  width: 200px;
 }
 
 /* Start Game block */
