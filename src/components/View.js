@@ -97,6 +97,20 @@ export class View {
     /* A container for error messages pertaining the start of the game */
     this.createElement('div', 'error hidden', 'error-start', blockStartGame)
 
+    /* A container for displaying the score of the game */
+    const containerScore =
+      this.createElement('div', null, 'container-score', blockStartGame)
+
+    const containerScoreTitle =
+      this.createElement('div', null, 'score-title', containerScore)
+    containerScoreTitle.textContent = 'Ships left'
+
+    const containerScoreText =
+      this.createElement('div', null, 'score-text', containerScore)
+    containerScoreText.textContent = '7 : 4'
+
+    containerScore.style.display = 'none'
+
     /* Resetting input fields */
     this.resetInputFieldsPosition()
   }
@@ -522,6 +536,21 @@ export class View {
     for (const field of inputFields) {
       field.value = ''
     }
+  }
+
+  static displayElementsDOMOnStartGame () {
+    const blockButtons = document.getElementById('block-buttons')
+    const blockShips = document.getElementById('block-ships')
+    const buttonStart = document.getElementById('btn-start-game')
+    const containerScore = document.getElementById('container-score')
+
+    // Hiding
+    blockButtons.style.display = 'none'
+    blockShips.style.display = 'none'
+    buttonStart.style.display = 'none'
+
+    // Showing
+    containerScore.style.cssText = ''
   }
 
   static changeTurns (player) {

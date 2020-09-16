@@ -33,6 +33,7 @@ class Game {
 
     PubSub.subscribe('clicked_btn_start_game', () => {
       this.initGame(player1, player2)
+      View.displayElementsDOMOnStartGame()
     })
 
     PubSub.subscribe('clicked_player2_grid', (msg, coordinates) => {
