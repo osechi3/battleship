@@ -85,6 +85,10 @@ export class View {
       }
     })
 
+    /* A button that aborts the game */
+    const buttonAbortGame = document.getElementById('btn-abort-game')
+    buttonAbortGame.style.display = 'none'
+
     /* A container for displaying the score of the game */
     const containerScore = document.getElementById('container-score')
     containerScore.style.display = 'none'
@@ -543,6 +547,7 @@ export class View {
     const containerScore = document.getElementById('container-score')
     const gridPlayer2 = document.getElementById('grid-player2')
     const namePlayer2 = document.getElementById('block-name2')
+    const buttonAbortGame = document.getElementById('btn-abort-game')
 
     // Hiding
     blockButtons.style.display = 'none'
@@ -553,6 +558,7 @@ export class View {
     containerScore.style.cssText = ''
     gridPlayer2.style.cssText = ''
     namePlayer2.style.cssText = ''
+    buttonAbortGame.style.cssText = ''
   }
 
   static changeTurns (player) {
