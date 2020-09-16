@@ -1,5 +1,4 @@
 import PubSub from 'pubsub-js'
-import { Ship } from './Ship'
 
 export class Gameboard {
   constructor (player) {
