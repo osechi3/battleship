@@ -33,7 +33,7 @@ class Game {
 
     PubSub.subscribe('clicked_btn_start_game', () => {
       this.initGame(player1, player2)
-      View.displayElementsDOMOnStartGame()
+      View.displayElementsDOMOnStartGame('none', '')
     })
 
     PubSub.subscribe('clicked_player2_grid', (msg, coordinates) => {
@@ -56,6 +56,13 @@ class Game {
     PubSub.subscribe('game_has_been_aborted', () => {
       this.gameOver()
     })
+
+    PubSub.subscribe('game_reset', () => {
+      this.resetGameData(player1)
+      this.resetGameData(player2)
+      View.resetGameDOM(player1, player2)
+      View.placeShipsOnGridRandomly(player2)
+    })
   }
 
   static initGame (player1, player2) {
@@ -71,6 +78,13 @@ class Game {
     } else {
       alert('The game has been aborted.')
     }
+  }
+
+  static resetGameData (player) {
+    player.gameboard.aliveShips = []
+    player.gameboard.missedHitsCoordinates = []
+    player.previousCoordinates = []
+    player.isSunk = false
   }
 }
 Game.init()

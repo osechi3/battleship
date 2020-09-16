@@ -189,6 +189,9 @@ body {
 
   border: 3px solid #BEE3DB;
 }
+#btn-play-again {
+  border: 3px solid #BEE3DB;
+}
 .error {
   margin: 8px;
   padding: 3px;

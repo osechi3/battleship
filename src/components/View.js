@@ -93,6 +93,14 @@ export class View {
       PubSub.publish('game_has_been_aborted')
     })
 
+    /* Play again button */
+    const buttonPlayAgain = document.getElementById('btn-play-again')
+    buttonPlayAgain.style.display = 'none'
+
+    buttonPlayAgain.addEventListener('click', () => {
+      PubSub.publish('game_reset')
+    })
+
     /* A container for displaying the score of the game */
     const containerScore = document.getElementById('container-score')
     containerScore.style.display = 'none'
@@ -195,19 +203,7 @@ export class View {
 
     /* Event listeners */
     PubSub.subscribe('clicked_btn_start_game', () => {
-      gridPlayer2.addEventListener('click', (e) => {
-        if (e.target.textContent) {
-          console.log(e.target.textContent)
-          PubSub.publish('clicked_player2_grid', e.target.textContent)
-        }
-      })
-
-      gridPlayer1.addEventListener('click', (e) => {
-        if (e.target.textContent) {
-          console.log(e.target.textContent)
-          PubSub.publish('clicked_player1_grid', e.target.textContent)
-        }
-      })
+      gridPlayer2.addEventListener('click', this.enableClickingGridOpponent)
     })
 
     // Hiding the error message when starting the game
@@ -250,7 +246,8 @@ export class View {
 
   static resetShipPlacement (player) {
     const inputFields = document.querySelectorAll('.input-position')
-    const gridPlayer1 = document.getElementById('grid-player1')
+    const gridPlayer1 =
+      document.getElementById(`grid-${player.gameboard.player}`)
 
     inputFields.forEach(field => {
       field.value = ''
@@ -260,6 +257,9 @@ export class View {
       child.removeAttribute('id')
       child.classList.remove('placed')
       child.classList.remove('created')
+
+      // Delete it
+      child.style.cssText = ''
     }
 
     player.gameboard.aliveShips = []
@@ -516,6 +516,13 @@ export class View {
     })
   }
 
+  static enableClickingGridOpponent (e) {
+    if (e.target.textContent) {
+      console.log(e.target.textContent)
+      PubSub.publish('clicked_player2_grid', e.target.textContent)
+    }
+  }
+
   static updateGridPlayer (coordinates, missedHits, player) {
     const gridPlayer = document.getElementById(`grid-${player}`)
     const isMissed = missedHits.some(hit => coordinates === hit)
@@ -548,7 +555,23 @@ export class View {
     }
   }
 
-  static displayElementsDOMOnStartGame () {
+  static resetGameDOM (player1, player2) {
+    const coverPlayer1 = document.getElementById('cover-player1')
+    coverPlayer1.style.display = 'none'
+
+    const gridPlayer2 = document.getElementById('grid-player2')
+    gridPlayer2.removeEventListener('click', this.enableClickingGridOpponent)
+
+    this.displayElementsDOMOnStartGame('', 'none')
+
+    this.resetShipPlacement(player1)
+    this.resetShipPlacement(player2)
+  }
+
+  static displayElementsDOMOnStartGame (
+    displayStartElements,
+    displayGameElements
+  ) {
     const blockButtons = document.getElementById('block-buttons')
     const blockShips = document.getElementById('block-ships')
     const buttonStart = document.getElementById('btn-start-game')
@@ -557,16 +580,16 @@ export class View {
     const namePlayer2 = document.getElementById('block-name2')
     const buttonAbortGame = document.getElementById('btn-abort-game')
 
-    // Hiding
-    blockButtons.style.display = 'none'
-    blockShips.style.display = 'none'
-    buttonStart.style.display = 'none'
+    // Elements needed before starting the game
+    blockButtons.style.display = displayStartElements
+    blockShips.style.display = displayStartElements
+    buttonStart.style.display = displayStartElements
 
-    // Showing
-    containerScore.style.cssText = ''
-    gridPlayer2.style.cssText = ''
-    namePlayer2.style.cssText = ''
-    buttonAbortGame.style.cssText = ''
+    // Elements needed in the game process
+    containerScore.style.display = displayGameElements
+    gridPlayer2.style.display = displayGameElements
+    namePlayer2.style.display = displayGameElements
+    buttonAbortGame.style.display = displayGameElements
   }
 
   static changeTurns (player) {
