@@ -144,6 +144,25 @@ body {
 
   background-color: gainsboro;
 }
+#container-score {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin: 0 60px;
+
+  text-align: center;
+
+  /* outline: 1px solid; */
+}
+#score-title {
+  font-size: 20px;
+}
+#score-text {
+  padding: 3px;
+
+  font-size: 22px;
+}
 
 .hidden {
   display: none;
