@@ -105,11 +105,31 @@ export class View {
       this.createElement('div', null, 'score-title', containerScore)
     containerScoreTitle.textContent = 'Ships left'
 
-    const containerScoreText =
-      this.createElement('div', null, 'score-text', containerScore)
-    containerScoreText.textContent = '7 : 4'
+    const containerScoreBody =
+      this.createElement('div', null, 'score-body', containerScore)
+
+    const scoreTextPlayer1 =
+      this.createElement(
+        'div', 'score-text', 'score-text-player1', containerScoreBody
+      )
+    const scoreTextPlayer2 =
+      this.createElement(
+        'div', 'score-text', 'score-text-player2', containerScoreBody
+      )
+
+    scoreTextPlayer1.textContent = '10' + ':'
+    scoreTextPlayer2.textContent = '10'
 
     containerScore.style.display = 'none'
+
+    // Populating score container every time a ship gets sunk
+    PubSub.subscribe('ships_are_alive', (msg, { amount, player }) => {
+      if (player === 'player1') {
+        scoreTextPlayer1.textContent = amount + ':'
+      } else if (player === 'player2') {
+        scoreTextPlayer2.textContent = amount
+      }
+    })
 
     /* Resetting input fields */
     this.resetInputFieldsPosition()
