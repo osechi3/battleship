@@ -81,12 +81,4 @@ export class Gameboard {
       player: this.player
     })
   }
-
-  initShips () {
-    this.createShipOnGameboard(new Ship(1, 1, 0, 'horizontal'))
-    this.createShipOnGameboard(new Ship(2, 2, 3, 'vertical'))
-    this.createShipOnGameboard(new Ship(3, 5, 3, 'horizontal'))
-    this.createShipOnGameboard(new Ship(4, 8, 3, 'vertical'))
-    console.log(this.aliveShips)
-  }
 }
