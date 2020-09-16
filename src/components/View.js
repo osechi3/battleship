@@ -89,6 +89,10 @@ export class View {
     const buttonAbortGame = document.getElementById('btn-abort-game')
     buttonAbortGame.style.display = 'none'
 
+    buttonAbortGame.addEventListener('click', () => {
+      PubSub.publish('game_has_been_aborted')
+    })
+
     /* A container for displaying the score of the game */
     const containerScore = document.getElementById('container-score')
     containerScore.style.display = 'none'

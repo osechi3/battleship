@@ -52,6 +52,10 @@ class Game {
     PubSub.subscribe('no_alive_ships', (msg, player) => {
       this.gameOver(player)
     })
+
+    PubSub.subscribe('game_has_been_aborted', () => {
+      this.gameOver()
+    })
   }
 
   static initGame (player1, player2) {
@@ -64,6 +68,8 @@ class Game {
       alert('The game is over. Player 2 has won!')
     } else if (player === 'player2') {
       alert('The game is over. Player 1 has won!')
+    } else {
+      alert('The game has been aborted.')
     }
   }
 }
