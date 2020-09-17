@@ -115,6 +115,12 @@ export class View {
       }
     })
 
+    // Populating the score element with initial values
+    PubSub.subscribe('clicked_btn_start_game', () => {
+      scoreTextPlayer1.textContent = 10 + ':'
+      scoreTextPlayer2.textContent = 10
+    })
+
     /* Endgame message */
     const messageEndgame = document.getElementById('message-endgame')
     messageEndgame.style.display = 'none'
