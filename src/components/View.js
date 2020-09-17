@@ -88,7 +88,7 @@ export class View {
     buttonAbortGame.style.display = 'none'
 
     buttonAbortGame.addEventListener('click', () => {
-      PubSub.publish('game_has_been_aborted')
+      PubSub.publish('game_aborted')
     })
 
     /* Play again button */

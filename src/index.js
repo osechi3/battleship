@@ -53,7 +53,7 @@ class Game {
       this.gameOver(player)
     })
 
-    PubSub.subscribe('game_has_been_aborted', () => {
+    PubSub.subscribe('game_aborted', () => {
       this.gameOver()
     })
 
