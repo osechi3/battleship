@@ -526,7 +526,7 @@ export class View {
       ship.body.forEach(position => {
         for (let item = 0; item < 110; item++) {
           if (position === gridPlayer.childNodes[item].textContent) {
-            gridPlayer.childNodes[item].style.backgroundColor = 'red'
+            gridPlayer.childNodes[item].style.backgroundColor = '#555b6e'
           }
         }
       })
@@ -548,9 +548,9 @@ export class View {
     for (let item = 0; item < 110; item++) {
       if (gridPlayer.childNodes[item].textContent === coordinates) {
         if (isMissed) {
-          gridPlayer.childNodes[item].style.backgroundColor = 'lightblue'
+          gridPlayer.childNodes[item].style.backgroundColor = '#DAE7E6'
         } else {
-          gridPlayer.childNodes[item].style.backgroundColor = 'yellow'
+          gridPlayer.childNodes[item].style.backgroundColor = '#F5F749'
         }
       }
     }
