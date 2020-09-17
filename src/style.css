@@ -257,3 +257,10 @@ body {
 .hidden {
   display: none;
 }
+
+.confirm {
+  background-color: #CE5374;
+}
+.confirm:hover {
+  background-color: #D7708B;
+}

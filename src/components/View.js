@@ -88,7 +88,19 @@ export class View {
     buttonAbortGame.style.display = 'none'
 
     buttonAbortGame.addEventListener('click', () => {
-      PubSub.publish('game_aborted')
+      if (buttonAbortGame.classList.contains('confirm')) {
+        PubSub.publish('game_aborted')
+        buttonAbortGame.textContent = 'Abort Game'
+        buttonAbortGame.classList.remove('confirm')
+      } else {
+        buttonAbortGame.textContent = 'Are you sure?'
+        buttonAbortGame.classList.add('confirm')
+
+        setTimeout(() => {
+          buttonAbortGame.classList.remove('confirm')
+          buttonAbortGame.textContent = 'Abort Game'
+        }, 4000)
+      }
     })
 
     /* Play again button */
