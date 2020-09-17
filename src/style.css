@@ -120,8 +120,6 @@ body {
 }
 
 .cover {
-  display: none;
-
   position: absolute;
   width: 420px;
   height: 370px;
@@ -241,8 +239,10 @@ body {
   flex-direction: column;
   align-items: center;
 
+  margin: 20px;
   padding: 5px 10px;
 
+  text-align: center;
   color: white;
   font-size: 18px;
 

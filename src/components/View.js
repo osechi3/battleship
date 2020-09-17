@@ -59,21 +59,19 @@ export class View {
 
     /* Div that doesn't let a player make a turn before
     the other player do so */
-    PubSub.subscribe('clicked_btn_start_game', () => {
-      const gridPlayer1 = document.getElementById('grid-player1')
-      const gridPlayer2 = document.getElementById('grid-player2')
+    const gridPlayer1 = document.getElementById('grid-player1')
+    const gridPlayer2 = document.getElementById('grid-player2')
 
-      const coverChangingTurnsPlayer1 =
-        this.createElement('div', 'cover', 'cover-player1', gridPlayer1)
-      const coverChangingTurnsPlayer2 =
-        this.createElement('div', 'cover', 'cover-player2', gridPlayer2)
+    const coverPlayer1 =
+      this.createElement('div', 'cover', 'cover-player1', gridPlayer1)
+    const coverPlayer2 =
+      this.createElement('div', 'cover', 'cover-player2', gridPlayer2)
 
-      /* Letting Player 1 go first */
-      coverChangingTurnsPlayer1.style.display = 'initial'
+    coverPlayer1.style.display = 'none'
+    coverPlayer2.style.display = 'none'
 
-      gridPlayer1.append(coverChangingTurnsPlayer1)
-      gridPlayer2.append(coverChangingTurnsPlayer2)
-    })
+    gridPlayer1.append(coverPlayer1)
+    gridPlayer2.append(coverPlayer2)
 
     /* A button that starts the game */
     const buttonStartGame = document.getElementById('btn-start-game')
@@ -254,6 +252,7 @@ export class View {
     })
 
     for (const child of gridPlayer1.children) {
+      if (child.classList.contains('cover')) continue
       child.removeAttribute('id')
       child.classList.remove('placed')
       child.classList.remove('created')
@@ -556,22 +555,16 @@ export class View {
   }
 
   static resetGameDOM (player1, player2) {
-    const coverPlayer1 = document.getElementById('cover-player1')
-    coverPlayer1.style.display = 'none'
-
     const gridPlayer2 = document.getElementById('grid-player2')
     gridPlayer2.removeEventListener('click', this.enableClickingGridOpponent)
 
-    this.displayElementsDOMOnStartGame('', 'none')
+    this.displayElementsDOM('before-start')
 
     this.resetShipPlacement(player1)
     this.resetShipPlacement(player2)
   }
 
-  static displayElementsDOMOnStartGame (
-    displayStartElements,
-    displayGameElements
-  ) {
+  static displayElementsDOM (stage) {
     const blockButtons = document.getElementById('block-buttons')
     const blockShips = document.getElementById('block-ships')
     const buttonStart = document.getElementById('btn-start-game')
@@ -579,17 +572,46 @@ export class View {
     const gridPlayer2 = document.getElementById('grid-player2')
     const namePlayer2 = document.getElementById('block-name2')
     const buttonAbortGame = document.getElementById('btn-abort-game')
+    const buttonPlayAgain = document.getElementById('btn-play-again')
+    const messageEndgame = document.getElementById('message-endgame')
+    const coverPlayer1 = document.getElementById('cover-player1')
+    const coverPlayer2 = document.getElementById('cover-player2')
 
-    // Elements needed before starting the game
-    blockButtons.style.display = displayStartElements
-    blockShips.style.display = displayStartElements
-    buttonStart.style.display = displayStartElements
+    if (stage === 'before-start') {
+      // Hiding
+      messageEndgame.style.display = 'none'
+      coverPlayer1.style.display = 'none'
+      gridPlayer2.style.display = 'none'
+      namePlayer2.style.display = 'none'
+      buttonPlayAgain.style.display = 'none'
+      containerScore.style.display = 'none'
 
-    // Elements needed in the game process
-    containerScore.style.display = displayGameElements
-    gridPlayer2.style.display = displayGameElements
-    namePlayer2.style.display = displayGameElements
-    buttonAbortGame.style.display = displayGameElements
+      // Showing
+      blockButtons.style.display = ''
+      blockShips.style.display = ''
+      buttonStart.style.display = ''
+    } else if (stage === 'start') {
+      // Hiding
+      blockButtons.style.display = 'none'
+      blockShips.style.display = 'none'
+      buttonStart.style.display = 'none'
+      coverPlayer2.style.display = 'none'
+
+      // Showing
+      containerScore.style.display = ''
+      gridPlayer2.style.display = ''
+      namePlayer2.style.display = ''
+      buttonAbortGame.style.display = ''
+      coverPlayer1.style.display = ''
+    } else if (stage === 'over') {
+      // Hiding
+      buttonAbortGame.style.display = 'none'
+
+      // Showing
+      messageEndgame.style.display = ''
+      buttonPlayAgain.style.display = ''
+      coverPlayer2.style.display = ''
+    }
   }
 
   static changeTurns (player) {

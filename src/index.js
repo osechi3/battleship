@@ -33,7 +33,7 @@ class Game {
 
     PubSub.subscribe('clicked_btn_start_game', () => {
       this.initGame(player1, player2)
-      View.displayElementsDOMOnStartGame('none', '')
+      View.displayElementsDOM('start')
     })
 
     PubSub.subscribe('clicked_player2_grid', (msg, coordinates) => {
@@ -71,13 +71,22 @@ class Game {
   }
 
   static gameOver (player) {
+    const messageEndgameTitle =
+      document.getElementById('message-endgame-title')
+    const messageEndgameBody = document.getElementById('message-endgame-body')
+
     if (player === 'player1') {
-      alert('The game is over. Player 2 has won!')
+      messageEndgameTitle.textContent = 'I\'m afraid'
+      messageEndgameBody.textContent = 'You\'ve lost.'
     } else if (player === 'player2') {
-      alert('The game is over. Player 1 has won!')
+      messageEndgameTitle.textContent = 'Congratulations!'
+      messageEndgameBody.textContent = 'You\'ve won!'
     } else {
-      alert('The game has been aborted.')
+      messageEndgameTitle.textContent = 'Aborted'
+      messageEndgameBody.textContent = 'The game has been aborted.'
     }
+
+    View.displayElementsDOM('over')
   }
 
   static resetGameData (player) {
