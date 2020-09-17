@@ -149,7 +149,7 @@ export class View {
     /* Players' names */
     const namePlayer1 =
       this.createElement('p', 'name', 'block-name1', blockGridPlayer1)
-    namePlayer1.textContent = 'Player 1'
+    namePlayer1.textContent = 'Player'
 
     const namePlayer2 =
       this.createElement('p', 'name', 'block-name2', blockGridPlayer2)
