@@ -7,6 +7,101 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <h1 id="header">BattleShip</h1>
+      <div id="block-main">
+        <div class="horizontal" id="block-ships">
+          <div id="message-placing">Type in the coordinates you would like your ships to be placed on</div>
+          <div class="ship" id="ship4-1">
+            <div class="ship-part">
+              <input class="input-position" type="text" placeholder="00" maxlength="2">
+            </div>
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+          </div>
+          <div class="ship" id="ship3-1">
+            <div class="ship-part">
+              <input class="input-position" type="text" maxlength="2">
+            </div>
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+          </div>
+          <div class="ship" id="ship3-2">
+            <div class="ship-part">
+              <input class="input-position" type="text" maxlength="2">
+            </div>
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+          </div>
+          <div class="ship" id="ship2-1">
+            <div class="ship-part">
+              <input class="input-position" type="text" maxlength="2">
+            </div>
+            <div class="ship-part"></div>
+          </div>
+          <div class="ship" id="ship2-2">
+            <div class="ship-part">
+              <input class="input-position" type="text" maxlength="2">
+            </div>
+            <div class="ship-part"></div>
+          </div>
+          <div class="ship" id="ship2-3">
+            <div class="ship-part">
+              <input class="input-position" type="text" maxlength="2">
+            </div>
+            <div class="ship-part"></div>
+          </div>
+          <div id="container-ship1">
+            <div class="ship" id="ship1-1">
+              <div class="ship-part">
+                <input class="input-position" type="text" maxlength="2">
+              </div>
+            </div>
+            <div class="ship" id="ship1-2">
+              <div class="ship-part">
+                <input class="input-position" type="text" maxlength="2">
+              </div>
+            </div>
+            <div class="ship" id="ship1-3">
+              <div class="ship-part">
+                <input class="input-position" type="text" maxlength="2">
+              </div>
+            </div>
+            <div class="ship" id="ship1-4">
+              <div class="ship-part">
+                <input class="input-position" type="text" maxlength="2">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="block-grid" id="block-grid1"></div>
+        <div id="block-center">
+          <div id="block-buttons">
+            <button class="btn" id="button-horizontal-placing" type="button">Horizontal</button>
+            <button class="btn" id="button-reset-placement" type="button">Reset</button>
+            <button class="btn" id="button-random" type="button">Random and Start</button>
+          </div>
+          <div id="block-start-game">
+            <div class="error hidden" id="error-start"></div>
+            <button class="btn" id="btn-start-game" type="button">Start Game</button>
+            <div id="container-score">
+              <div id="score-title">Ships left</div>
+              <div id="score-body">
+                <div class="score-text" id="score-text-player1"></div>
+                <div class="score-text" id="score-text-player2"></div>
+              </div>
+            </div>
+            <div id="message-endgame">
+              <div id="message-endgame-title"></div>
+              <div id="message-endgame-body"></div>
+            </div>
+            <button class="btn" id="btn-abort-game">Abort Game</button>
+            <button class="btn" id="btn-play-again">Play again</button>
+          </div>
+        </div>
+        <div class="block-grid" id="block-grid2"></div>
+      </div>
+    </div>
   <script src="/dist/bundle.js"></script></body>
 </html>
