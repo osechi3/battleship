@@ -7,6 +7,10 @@ export class Player {
     this.versusAi = versusAi
     this.isAi = isAi
     this.aiSuccessfulHits = []
+
+    /* In case there is an unexpected error when clicking on the grid */
+    this.recursionCounter = 0
+
     /* 'ship_is_sunk' event fires earlier that 'ai_successful_hit',
       which is not desired */
     this.isSunk = false
@@ -38,15 +42,21 @@ export class Player {
     /* If AI clicks on the same spot multiple times */
     } else if (wasHit && !this.isAi) {
       console.log('You can\'t hit the same spot twice.')
+      this.recursionCounter++
+      console.log(this.recursionCounter)
       this.makeTurnAi()
     } else {
       this.gameboard.receiveAttack(coordinates, player)
       this.previousCoordinates.push(coordinates)
+      this.recursionCounter = 0
 
       /* AI player makes a turn */
       if (this.isAi && this.versusAi) {
         this.makeTurnAi()
       }
+    }
+    if (this.recursionCounter > 500) {
+      return undefined
     }
   }
 
