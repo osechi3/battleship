@@ -25,8 +25,24 @@ body {
   margin-top: 20px;
 }
 
+#message-placing {
+  position: absolute;
+  top: -65px;
+  left: -20px;
+
+  width: 280px;
+  padding: 5px;
+
+  background-color: #faf9f9;
+
+  border: 1px transparent;
+  border-radius: 5px;
+}
+
 /* Ships block */
 #block-ships {
+  position: relative;
+
   display: flex;
   flex-direction: column;
 
