@@ -274,6 +274,8 @@ export class View {
       child.removeAttribute('id')
       child.classList.remove('placed')
       child.classList.remove('created')
+      child.classList.remove('horizontal')
+      child.classList.remove('vertical')
 
       // Delete it
       child.style.cssText = ''
@@ -449,11 +451,20 @@ export class View {
     if (addOrRemove === 'add') {
       classesArray.forEach(className => {
         element.classList.add(className)
+        element.classList.add(direction)
       })
       element.id = itemId
     } else if (addOrRemove === 'remove') {
+      for (const className of element.classList) {
+        if (className === 'horizontal' || className === 'vertical') {
+          direction = className
+        }
+      }
+
       classesArray.forEach(className => {
         element.classList.remove(className)
+        element.classList.remove('horizontal')
+        element.classList.remove('vertical')
       })
       element.removeAttribute('id', itemId)
     }
