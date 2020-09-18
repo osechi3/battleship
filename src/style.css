@@ -105,6 +105,8 @@ body {
   width: 42px;
 
   outline: 1px solid;
+
+  cursor: pointer;
 }
 
 .placed {
