@@ -69,8 +69,16 @@ export class View {
     shipsPlayer.forEach(ship => {
       ship.body.forEach(position => {
         for (let item = 0; item < 110; item++) {
+          gridPlayer.childNodes[item].style.outline = 'none'
+
           if (position === gridPlayer.childNodes[item].textContent) {
-            gridPlayer.childNodes[item].style.backgroundColor = '#555b6e'
+            if (player.gameboard.player === 'player1') {
+              gridPlayer.childNodes[item].style.backgroundColor = '#555b6e'
+            } else {
+              gridPlayer.childNodes[item].style.backgroundColor = '#89b0ae'
+              gridPlayer.childNodes[item].style.border = 'none'
+              gridPlayer.childNodes[item].style.borderRadius = '0'
+            }
           }
         }
       })
