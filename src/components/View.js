@@ -121,7 +121,6 @@ export class View {
     /* Update grids after a player has made their turn */
     PubSub.subscribe('attack_is_executed', (msg, data) => {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
-      // this.changeTurns(data.player)
     })
   }
 
@@ -497,19 +496,6 @@ export class View {
       messageEndgame.style.display = ''
       buttonPlayAgain.style.display = ''
       coverPlayer2.style.display = ''
-    }
-  }
-
-  static changeTurns (player) {
-    const coverPlayer1 = document.getElementById('cover-player1')
-    const coverPlayer2 = document.getElementById('cover-player2')
-
-    if (player === 'player2') {
-      coverPlayer1.style.display = 'none'
-      coverPlayer2.style.display = 'initial'
-    } else if (player === 'player1') {
-      coverPlayer1.style.display = 'initial'
-      coverPlayer2.style.display = 'none'
     }
   }
 }
