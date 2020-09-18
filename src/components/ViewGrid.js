@@ -112,7 +112,6 @@ export class Grid {
   static updateGridPlayer (coordinates, missedHits, player) {
     const gridPlayer = document.getElementById(`grid-${player}`)
     const isMissed = missedHits.some(hit => coordinates === hit)
-    console.log(isMissed)
 
     for (let item = 0; item < 110; item++) {
       if (gridPlayer.childNodes[item].textContent === coordinates) {
@@ -127,7 +126,6 @@ export class Grid {
 
   static enableClickingGridOpponent (e) {
     if (e.target.textContent) {
-      console.log(e.target.textContent)
       PubSub.publish('clicked_player2_grid', e.target.textContent)
     }
   }
@@ -165,7 +163,6 @@ export class Grid {
             'add',
             shipClasses[0]
           )
-          console.log(shipClasses[0])
           View.getShipFromDOM(player, shipClasses[0])
         }
       }
@@ -260,7 +257,6 @@ export class Grid {
       /* Deciding whether the ship will be placed horizontally or vertically */
       const numRandom = Math.floor(Math.random() * 3)
       const verticalOrHorizontal = numRandom > 1 ? 'horizontal' : 'vertical'
-      console.log(verticalOrHorizontal)
 
       coordinates = this.getRandomNumber(length, oldCoordinates)
 
@@ -309,7 +305,6 @@ export class Grid {
         direction: verticalOrHorizontal
       })
     }
-    console.log(oldCoordinates)
   }
 
   static getRandomNumber (length, oldCoordinates, iteration = 0) {
@@ -338,10 +333,7 @@ export class Grid {
     if (parseInt((numberRandom + '')[1]) + length - 1 >= 10 || // vertically
         (numberRandom < 10 && numberRandom + length - 1 >= 10) || // vertically
         (numberRandom + (length * 10 - 10) >= 100 && length !== 1)) { // horizontally
-      console.log(oldCoordinates)
-      console.log('Too big of a number: ' + numberRandom)
       numberRandom = this.getRandomNumber(length, oldCoordinates, iteration)
-      console.log('New number: ' + numberRandom)
       return numberRandom
     } else if (isOccupied === true) {
       numberRandom = this.getRandomNumber(length, oldCoordinates, iteration)

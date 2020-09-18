@@ -68,10 +68,7 @@ export class Gameboard {
   }
 
   areShipsAlive () {
-    if (this.aliveShips.length > 0) {
-      console.log('There are still ships on the gameboard')
-    } else {
-      console.log('There are no ships left')
+    if (this.aliveShips.length <= 0) {
       PubSub.publish('no_alive_ships', this.player)
     }
 

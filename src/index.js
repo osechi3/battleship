@@ -15,7 +15,6 @@ class Game {
 
     /* When a player places a ship onto the grid */
     PubSub.subscribe('got_ship_from_DOM', (msg, data) => {
-      console.log(data)
       const x = parseInt(data.coordinates[0])
       const y = parseInt(data.coordinates[1])
       data.player.gameboard

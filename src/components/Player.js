@@ -17,11 +17,9 @@ export class Player {
 
     PubSub.subscribe('ai_successful_hit', (msg, coordinates) => {
       this.aiSuccessfulHits.push(coordinates)
-      console.log(this.aiSuccessfulHits)
 
       if (this.isSunk) {
         this.aiSuccessfulHits = []
-        console.log(this.aiSuccessfulHits)
       }
       this.isSunk = false
     })
@@ -38,12 +36,10 @@ export class Player {
 
     /* If the player clicks on the same spot multiple times */
     if (wasHit && this.isAi) {
-      console.log('You can\'t hit the same spot twice.')
+      return
     /* If AI clicks on the same spot multiple times */
     } else if (wasHit && !this.isAi) {
-      console.log('You can\'t hit the same spot twice.')
       this.recursionCounter++
-      console.log(this.recursionCounter)
       this.makeTurnAi()
     } else {
       this.gameboard.receiveAttack(coordinates, player)
@@ -87,7 +83,6 @@ export class Player {
     // Add 0 to coordinates when there is one-digit number
     if (coordinates.length < 2) {
       coordinates = 0 + coordinates
-      console.log(coordinates)
     }
 
     PubSub.publish('make_turn_ai', coordinates)

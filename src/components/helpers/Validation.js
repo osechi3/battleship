@@ -5,12 +5,8 @@ export function Validation () {
     const futureCoordinates =
       getFutureCoordinates(shipInput.value, shipLength, direction)
 
-    console.log(futureCoordinates)
-    console.log(shipInput.value)
-
     /* Checking if a part of the ship is outside of the grid */
     const isIncorrectPosition = futureCoordinates.some(coordinate => {
-      console.log(coordinate.length)
       return coordinate.length > 2
     })
 
@@ -23,7 +19,6 @@ export function Validation () {
       for (const child of gridPlayer1.children) {
         if (coordinate === child.textContent &&
             child.classList.contains('placed')) {
-          console.log('Nope')
           return true
         }
       }

@@ -44,8 +44,6 @@ export class View {
     for (const child of gridPlayer1.children) {
       if (child.classList.contains('placed') &&
         !child.classList.contains('created')) {
-        console.log(child.textContent)
-
         shipId = child.id
         child.classList.add('created')
         ship.push(child.textContent)
