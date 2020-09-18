@@ -1,5 +1,6 @@
 import PubSub from 'pubsub-js'
 import { View } from './View'
+import { ShipsDOM } from './ViewShips'
 import { Validation } from './helpers/Validation'
 
 export class Menu {
@@ -27,7 +28,7 @@ export class Menu {
         buttonPlaceHorizontally.textContent = 'Horizontal'
       }
 
-      View.changeDisplayShipsInDOM()
+      ShipsDOM.changeDisplayShipsInDOM()
     })
 
     /* A button that starts the game */

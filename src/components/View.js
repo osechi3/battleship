@@ -1,35 +1,12 @@
 import PubSub from 'pubsub-js'
 import { Menu } from './ViewMenu'
-import { Validation } from './helpers/Validation'
+import { ShipsDOM } from './ViewShips'
+// import { Validation } from './helpers/Validation'
 
 export class View {
   static init (player1, player2) {
     Menu.init(player1, player2)
-
-    /* Ships */
-    const shipsInput = document.querySelectorAll('.input-position')
-    shipsInput.forEach(shipInput => {
-      shipInput.addEventListener('input', () => {
-        const shipLength =
-          shipInput.parentElement.parentElement.id.match(/[0-9]/)[0]
-        const elementClasses = document.getElementById('block-ships').classList
-
-        if (!Validation().isPlacedIncorrectly(
-          shipInput,
-          shipLength,
-          elementClasses
-        )) {
-          this.changeShipPositionOnGrid(
-            shipInput,
-            player1,
-            elementClasses
-          )
-          shipInput.classList.remove('input-invalid')
-        } else {
-          shipInput.classList.add('input-invalid')
-        }
-      })
-    })
+    ShipsDOM.init(player1, player2)
 
     /* Grid */
     this.initGrid()
@@ -51,7 +28,7 @@ export class View {
     gridPlayer2.append(coverPlayer2)
 
     /* Resetting input fields */
-    this.resetInputFieldsPosition()
+    ShipsDOM.resetInputFieldsPosition()
   }
 
   static initGrid () {
@@ -146,31 +123,6 @@ export class View {
       this.updateGridPlayer(data.coordinates, data.missedHits, data.player)
       // this.changeTurns(data.player)
     })
-  }
-
-  static changeDisplayShipsInDOM () {
-    const blockShips = document.getElementById('block-ships')
-    const shipElements = document.querySelectorAll('.ship')
-
-    if (blockShips.style.flexDirection === 'row') {
-      blockShips.style.flexDirection = 'column'
-
-      blockShips.classList.remove('vertical')
-      blockShips.classList.add('horizontal')
-
-      shipElements.forEach(element => {
-        element.style.flexDirection = 'row'
-      })
-    } else {
-      blockShips.style.flexDirection = 'row'
-
-      blockShips.classList.remove('horizontal')
-      blockShips.classList.add('vertical')
-
-      shipElements.forEach(element => {
-        element.style.flexDirection = 'column'
-      })
-    }
   }
 
   static resetShipPlacement (player) {
@@ -486,14 +438,6 @@ export class View {
     if (elementId) element.id = elementId
     if (appendTo) appendTo.append(element)
     return element
-  }
-
-  static resetInputFieldsPosition () {
-    const inputFields = document.querySelectorAll('.input-position')
-
-    for (const field of inputFields) {
-      field.value = ''
-    }
   }
 
   static resetGameDOM (player1, player2) {
