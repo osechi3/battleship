@@ -1,5 +1,5 @@
 import { Validation } from './helpers/Validation'
-import { View } from './View'
+import { Grid } from './ViewGrid'
 
 export class ShipsDOM {
   static init (player1, player2) {
@@ -16,7 +16,7 @@ export class ShipsDOM {
           shipLength,
           elementClasses
         )) {
-          View.changeShipPositionOnGrid(
+          Grid.changeShipPositionOnGrid(
             shipInput,
             player1,
             elementClasses

@@ -1,5 +1,6 @@
 import PubSub from 'pubsub-js'
 import { View } from './View'
+import { Grid } from './ViewGrid'
 import { ShipsDOM } from './ViewShips'
 import { Validation } from './helpers/Validation'
 
@@ -9,7 +10,7 @@ export class Menu {
     const buttonRandom = document.getElementById('button-random')
     buttonRandom.addEventListener('click', () => {
       View.resetShipPlacement(player1)
-      View.placeShipsOnGridRandomly(player1)
+      Grid.placeShipsOnGridRandomly(player1)
       PubSub.publish('clicked_btn_start_game')
     })
 

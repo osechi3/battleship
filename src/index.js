@@ -4,6 +4,7 @@ import { Gameboard } from './components/Gameboard'
 import { View } from './components/View'
 import { Ship } from './components/Ship'
 import PubSub from 'pubsub-js'
+import { Grid } from './components/ViewGrid'
 
 class Game {
   static init () {
@@ -24,7 +25,7 @@ class Game {
     })
 
     /* Placing the function below after 'got_ship_from_DOM' event since it relies on this event */
-    View.placeShipsOnGridRandomly(player2)
+    Grid.placeShipsOnGridRandomly(player2)
 
     /* When the first player removes a ship from the grid */
     PubSub.subscribe('ship_deleted_from_DOM', (msg, shipId) => {
@@ -61,7 +62,7 @@ class Game {
       this.resetGameData(player1)
       this.resetGameData(player2)
       View.resetGameDOM(player1, player2)
-      View.placeShipsOnGridRandomly(player2)
+      Grid.placeShipsOnGridRandomly(player2)
     })
   }
 
