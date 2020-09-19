@@ -63,7 +63,6 @@ export class Player {
       }
     }
     if (this.recursionCounter > 500) {
-      console.log('counter')
       this.isAllowed = false
       return undefined
     }
