@@ -8,7 +8,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, 'dist'),
-    publicPath: '/dist'
+    publicPath: '/battleship/'
   },
 
   module: {
@@ -35,7 +35,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      filename: 'bundle.html',
+      filename: 'index.html',
       title: 'Battleship'
     })
   ]
