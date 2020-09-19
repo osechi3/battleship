@@ -53,8 +53,8 @@ class Game {
       this.gameOver(player)
     })
 
-    PubSub.subscribe('game_aborted', () => {
-      this.gameOver()
+    PubSub.subscribe('game_aborted', (msg, reason) => {
+      this.gameOver(reason)
     })
 
     PubSub.subscribe('game_reset', () => {
@@ -81,6 +81,10 @@ class Game {
     } else if (player === 'player2') {
       messageEndgameTitle.textContent = 'Congratulations!'
       messageEndgameBody.textContent = 'You\'ve won!'
+    } else if (player === 'recursion') {
+      messageEndgameTitle.textContent = 'Error'
+      messageEndgameBody.textContent = `The computer can't make a turn.
+        Please start the game again.`
     } else {
       messageEndgameTitle.textContent = 'Aborted'
       messageEndgameBody.textContent = 'The game has been aborted.'

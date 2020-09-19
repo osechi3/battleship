@@ -10,6 +10,12 @@ export class Player {
 
     /* In case there is an unexpected error when clicking on the grid */
     this.recursionCounter = 0
+    this.isAllowed = true
+
+    PubSub.subscribe('recursion_stopped', () => {
+      this.isAllowed = true
+      this.previousCoordinates = []
+    })
 
     /* 'ship_is_sunk' event fires earlier that 'ai_successful_hit',
       which is not desired */
@@ -30,6 +36,11 @@ export class Player {
   }
 
   receiveDamage (coordinates, player) {
+    if (!this.isAllowed) {
+      PubSub.publish('recursion_stopped')
+      PubSub.publish('game_aborted', 'recursion')
+      return
+    }
     /* Checking if the received coordinates have been passed in before */
     const wasHit = this.previousCoordinates.some(prevCoordinates =>
       prevCoordinates === coordinates)
@@ -52,6 +63,8 @@ export class Player {
       }
     }
     if (this.recursionCounter > 500) {
+      console.log('counter')
+      this.isAllowed = false
       return undefined
     }
   }
